@@ -10,9 +10,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 
-@Data // Getter, Setter, toString, equals, hashCode
-@Entity // Marca la clase como entidad JPA
-@Table(name = "reserva_detalles") // Nombre de la tabla en la BD
+@Data
+@Entity
+@Table(name = "reserva_detalles")
 public class ReservaDetallesJpa implements Serializable {
 
 	private static final long serialVersionUID = 1L;
