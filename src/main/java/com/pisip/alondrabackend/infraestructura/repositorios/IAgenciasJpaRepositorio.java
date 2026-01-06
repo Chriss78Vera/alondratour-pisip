@@ -1,0 +1,9 @@
+package com.pisip.alondrabackend.infraestructura.repositorios;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.pisip.alondrabackend.infraestructura.persistencia.jpa.AgenciasJpa;
+
+public interface IAgenciasJpaRepositorio  extends JpaRepository<AgenciasJpa, Integer> {
+
+}
