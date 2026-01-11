@@ -12,7 +12,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "usuario")
+@Table(name = "tb_usuario")
 public class UsuariosJpa implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -21,6 +21,23 @@ public class UsuariosJpa implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_usuario")
 	private int idUsuario;
+
+	
+	@Column(nullable = false)
+	private String nombre;
+
+	
+	@Column(nullable = false, unique = true)
+	private String cedula;
+
+	
+	@Column(nullable = false, unique = true)
+	private String correo;
+
+	
+	@Column(nullable = false)
+	private String rol;
+
 
 
 }

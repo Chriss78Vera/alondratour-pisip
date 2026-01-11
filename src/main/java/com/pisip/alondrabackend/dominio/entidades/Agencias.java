@@ -7,19 +7,38 @@ public class Agencias implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private final int idAgencia;
-
-	private Agencias(
-			int idAgencia) {
-
+	private final String nombre;
+	private final String telefono;
+	
+	
+	public Agencias(int idAgencia, String nombre, String telefono) {
 		this.idAgencia = idAgencia;
+		this.nombre = nombre;
+		this.telefono = telefono;
 	}
+
+	
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
-	public int getidAgencia() {
+
+
+	public int getIdAgencia() {
 		return idAgencia;
+	}
+
+
+
+	public String getNombre() {
+		return nombre;
+	}
+
+
+
+	public String getTelefono() {
+		return telefono;
 	}
 
 
