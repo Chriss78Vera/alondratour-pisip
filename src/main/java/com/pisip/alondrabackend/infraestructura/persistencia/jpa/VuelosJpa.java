@@ -13,40 +13,39 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "tb_hotel")
-public class HotelesJpa implements Serializable {
-
+@Table(name = "tb_vuelo")
+public class VuelosJpa implements Serializable{
+	
 	private static final long serialVersionUID = 1L;
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_hotel")
-	private int idHotel;
+	@Column(name = "id_vuelo")
+	private int idVuelo;
 
-
+	
 	@Column(nullable = false)
-	private String nombre;
+	private String aerolinea;
 
-
+	
 	@Column(nullable = false)
-	private String ciudad;
+	private String origen;
 
-
+	
 	@Column(nullable = false)
-	private String pais;
+	private String destino;
 
+	
+	@Column(name = "fecha_salida", nullable = false)
+	private LocalDate fechaSalida;
 
-	@Column(name = "fecha_checkin", nullable = false)
-	private LocalDate fechaCheckin;
+	
+	@Column(name = "fecha_llegada", nullable = false)
+	private LocalDate fechaLlegada;
 
+	@Column(name = "fecha_extra_salida")
+	private LocalDate fechaExtraSalida;
 
-	@Column(name = "fecha_checkout", nullable = false)
-	private LocalDate fechaCheckout;
-
-	@Column(name = "fecha_extra_checkin")
-	private LocalDate fechaExtraCheckin;
-
-	@Column(name = "fecha_extra_checkout")
-	private LocalDate fechaExtraCheckout;
-
+	@Column(name = "fecha_extra_llegada")
+	private LocalDate fechaExtraLlegada;
 }

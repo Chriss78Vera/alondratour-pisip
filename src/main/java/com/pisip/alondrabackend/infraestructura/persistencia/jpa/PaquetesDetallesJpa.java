@@ -1,7 +1,7 @@
 package com.pisip.alondrabackend.infraestructura.persistencia.jpa;
 
-import java.io.Serializable;
 import java.time.LocalDate;
+import java.io.Serializable;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,35 +13,26 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "tb_servicio_extra")
-public class ServiciosExtraJpa implements Serializable {
-
+@Table(name = "tb_paquetes_detalles")
+public class PaquetesDetallesJpa implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_servicios_extra")
-	private int idServiciosExtra;
+	@Column(name = "id_paquetes_detalles")
+	private int idPaquetesDetalles;
 
-	
-	@Column(name = "id_reserva", nullable = false)
-	private int idReserva;
-
-	
-	@Column(nullable = false)
-	private float costo;
-
-	
-	@Column(name = "tipo_servicio", nullable = false)
-	private String tipoServicio;
-
-	
 	@Column(name = "fecha_inicio", nullable = false)
 	private LocalDate fechaInicio;
 
-	
 	@Column(name = "fecha_fin", nullable = false)
 	private LocalDate fechaFin;
 
+	@Column(nullable = false)
+	private String hotel;
 
+	@Column(name = "precio_neto", nullable = false)
+	private float precioNeto;
+	
 }

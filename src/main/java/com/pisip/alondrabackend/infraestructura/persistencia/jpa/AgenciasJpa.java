@@ -12,7 +12,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "agencias")
+@Table(name = "tb_agencia")
 public class AgenciasJpa implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -21,6 +21,11 @@ public class AgenciasJpa implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_agencia")
 	private int idAgencia;
-
+	
+	@Column(nullable = false)
+	private String nombre;
+	
+	@Column(nullable = false)
+	private String telefono;
 
 }
