@@ -1,5 +1,6 @@
 package com.pisip.alondrabackend.dominio.repositorios;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,4 +15,30 @@ public interface IHotelesRepositorio {
 	List<Hoteles> listarTodo();
 	
 	void eliminar(int id);
+	
+	// Logica de Negocio
+	
+
+	List<Hoteles> hotelesPorNombre(String nombre);
+
+	List<Hoteles> hotelesPorCiudad(String ciudad);
+
+	List<Hoteles> hotelesPorPais(String pais);
+
+	List<Hoteles> hotelesPorPaisYCiudad(String pais, String ciudad);
+
+	List<Hoteles> listarPorFechaDeCheckin(LocalDate fecha);
+
+	List<Hoteles> listarPorFechaDeCheckout(LocalDate fecha);
+
+	List<Hoteles> listarPorRangoDeFechas(LocalDate fechaInicial, LocalDate fechaFinal);
+
+	List<Hoteles> hotelesConfechaExtraCheckin();
+
+	List<Hoteles> listarPorFechaExtraCheckin(LocalDate fecha);
+
+	List<Hoteles> listarPorFechaExtraCheckout(LocalDate fecha);
+
+	List<Hoteles> listarPorRangoDeFechasExtras(LocalDate fechaInicial, LocalDate fechaFinal);
+	
 }
