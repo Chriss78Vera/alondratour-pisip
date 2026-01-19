@@ -29,33 +29,47 @@ public class Pasajeros implements Serializable {
 		this.visa = visa;
 	}
 	
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
+	
 	public int getIdPasajero() {
 		return idPasajero;
 	}
+
+
 	public int getIdReserva() {
 		return idReserva;
 	}
+
+
 	public String getNombre() {
 		return nombre;
 	}
+
+
 	public String getApellido() {
 		return apellido;
 	}
+
+
 	public String getCedula() {
 		return cedula;
 	}
+
+
 	public LocalDate getFechaNacimiento() {
 		return fechaNacimiento;
 	}
+
+
 	public boolean isPasaporte() {
 		return pasaporte;
 	}
+
+
 	public boolean isVisa() {
 		return visa;
 	}
+
+
 	@Override
 	public String toString() {
 		return "Pasajeros [idPasajero=" + idPasajero + ", idReserva=" + idReserva + ", nombre=" + nombre + ", apellido="

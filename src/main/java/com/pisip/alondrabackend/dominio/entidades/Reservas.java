@@ -31,45 +31,51 @@ public class Reservas implements Serializable {
 		this.estado = estado;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
 
 	public int getIdReserva() {
 		return idReserva;
 	}
 
+
 	public int getIdUsuario() {
 		return idUsuario;
 	}
+
 
 	public int getIdHotel() {
 		return idHotel;
 	}
 
+
 	public int getIdVuelo() {
 		return idVuelo;
 	}
+
 
 	public int getIdPaquete() {
 		return idPaquete;
 	}
 
+
 	public int getIdAgencia() {
 		return idAgencia;
 	}
+
 
 	public LocalDate getFechaReserva() {
 		return fechaReserva;
 	}
 
+
 	public float getCostoTotal() {
 		return costoTotal;
 	}
 
+
 	public boolean isEstado() {
 		return estado;
 	}
+
 
 	@Override
 	public String toString() {

@@ -48,6 +48,7 @@ public class HotelesRepositorioImpl implements IHotelesRepositorio {
 		jpaRepositorio.deleteById(id);
 	}
 
+	
 	@Override
 	public List<Hoteles> hotelesPorNombre(String nombre) {
 		// TODO Auto-generated method stub
