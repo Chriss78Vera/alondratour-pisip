@@ -20,4 +20,10 @@ public interface IPaquetesJpaRepositorio extends JpaRepository<PaquetesJpa, Inte
 
 	@Query("SELECT p FROM PaquetesJpa p WHERE p.paquetesDetalles.idPaquetesDetalles = ?1")
 	List<PaquetesJpa> paquetesPorIdPaquetesDetalles(int idPaquetesDetalles);
+
+	@Query("SELECT DISTINCT p.pais FROM PaquetesJpa p ORDER BY p.pais")
+	List<String> findDistinctPais();
+
+	@Query("SELECT DISTINCT p.ciudad FROM PaquetesJpa p ORDER BY p.ciudad")
+	List<String> findDistinctCiudad();
 }

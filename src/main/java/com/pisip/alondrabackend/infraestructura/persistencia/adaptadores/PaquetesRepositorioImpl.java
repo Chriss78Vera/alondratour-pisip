@@ -65,4 +65,14 @@ public class PaquetesRepositorioImpl implements IPaquetesRepositorio {
 	public List<Paquetes> paquetesPorIdPaquetesDetalles(int idPaquetesDetalles) {
 		return jpaRepositorio.paquetesPorIdPaquetesDetalles(idPaquetesDetalles).stream().map(jpaMapper::toDomain).toList();
 	}
+
+	@Override
+	public List<String> paisesDistintos() {
+		return jpaRepositorio.findDistinctPais();
+	}
+
+	@Override
+	public List<String> ciudadesDistintas() {
+		return jpaRepositorio.findDistinctCiudad();
+	}
 }

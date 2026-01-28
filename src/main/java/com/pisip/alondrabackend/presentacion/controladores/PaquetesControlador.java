@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,9 +12,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pisip.alondrabackend.aplicacion.casosuso.entradas.IHotelesUseCase;
 import com.pisip.alondrabackend.aplicacion.casosuso.entradas.IPaquetesUseCase;
 import com.pisip.alondrabackend.presentacion.dto.request.PaquetesRequestDto;
+import com.pisip.alondrabackend.presentacion.dto.response.PaisesYCiudadesDistintosResponseDto;
+import com.pisip.alondrabackend.presentacion.dto.response.PaqueteDetallesConHotelesResponseDto;
 import com.pisip.alondrabackend.presentacion.dto.response.PaquetesResponseDto;
+import com.pisip.alondrabackend.presentacion.mapeadores.IHotelesDtoMapper;
 import com.pisip.alondrabackend.presentacion.mapeadores.IPaquetesDtoMapper;
 
 import jakarta.validation.Valid;
@@ -23,10 +28,15 @@ import jakarta.validation.Valid;
 public class PaquetesControlador {
 	private final IPaquetesUseCase paquetesUseCase;
 	private final IPaquetesDtoMapper paquetesMapperDto;
+	private final IHotelesUseCase hotelesUseCase;
+	private final IHotelesDtoMapper hotelesMapperDto;
 
-	public PaquetesControlador(IPaquetesUseCase paquetesUseCase, IPaquetesDtoMapper paquetesMapperDto) {
+	public PaquetesControlador(IPaquetesUseCase paquetesUseCase, IPaquetesDtoMapper paquetesMapperDto,
+			IHotelesUseCase hotelesUseCase, IHotelesDtoMapper hotelesMapperDto) {
 		this.paquetesUseCase = paquetesUseCase;
 		this.paquetesMapperDto = paquetesMapperDto;
+		this.hotelesUseCase = hotelesUseCase;
+		this.hotelesMapperDto = hotelesMapperDto;
 	}
 
 	@GetMapping
@@ -69,5 +79,39 @@ public class PaquetesControlador {
 	@ResponseStatus(HttpStatus.OK)
 	public List<PaquetesResponseDto> paquetesPorIdPaquetesDetalles(@RequestParam int idPaquetesDetalles) {
 		return paquetesUseCase.paquetesPorIdPaquetesDetalles(idPaquetesDetalles).stream().map(paquetesMapperDto::toResponse).toList();
+	}
+
+	@GetMapping("/paisesYCiudadesDistintos")
+	@ResponseStatus(HttpStatus.OK)
+	public PaisesYCiudadesDistintosResponseDto paisesYCiudadesDistintos() {
+		var paises = paquetesUseCase.paisesDistintos();
+		var ciudades = paquetesUseCase.ciudadesDistintas();
+		return new PaisesYCiudadesDistintosResponseDto(paises, ciudades);
+	}
+
+	@GetMapping("/detallesConHoteles")
+	@ResponseStatus(HttpStatus.OK)
+	public PaqueteDetallesConHotelesResponseDto detallesConHotelesPorIdPaquete(@RequestParam int idPaquete) {
+		var paquete = paquetesUseCase.buscarPorId(idPaquete);
+		int idPaquetesDetalles = paquete.getIdPaquetesDetalles();
+		var hoteles = hotelesUseCase.hotelesPorIdPaquetesDetalles(idPaquetesDetalles);
+		var hotelesDto = hoteles.stream().map(hotelesMapperDto::toResponse).toList();
+		return new PaqueteDetallesConHotelesResponseDto(idPaquetesDetalles, hotelesDto);
+	}
+
+	@GetMapping("/detallesConHotelesPorPaqueteYDetalle")
+	@ResponseStatus(HttpStatus.OK)
+	public PaqueteDetallesConHotelesResponseDto detallesConHotelesPorIdPaqueteYDetalle(
+			@RequestParam int idPaquete,
+			@RequestParam int idPaquetesDetalles) {
+		var paquetesConEsteDetalle = paquetesUseCase.paquetesPorIdPaquetesDetalles(idPaquetesDetalles);
+		boolean pertenece = paquetesConEsteDetalle.stream().anyMatch(p -> p.getIdPaquete() == idPaquete);
+		if (!pertenece) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+					"El detalle " + idPaquetesDetalles + " no pertenece al paquete " + idPaquete);
+		}
+		var hoteles = hotelesUseCase.hotelesPorIdPaquetesDetalles(idPaquetesDetalles);
+		var hotelesDto = hoteles.stream().map(hotelesMapperDto::toResponse).toList();
+		return new PaqueteDetallesConHotelesResponseDto(idPaquetesDetalles, hotelesDto);
 	}
 }

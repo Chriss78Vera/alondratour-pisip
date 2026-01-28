@@ -6,7 +6,6 @@ public class ReservasResponseDto {
 	
 	private int idReserva;
 	private int idUsuario;
-	private int idHotel;
 	private int idVuelo;
 	private int idPaquete;
 	private int idAgencia;
@@ -26,12 +25,6 @@ public class ReservasResponseDto {
 	}
 	public void setIdUsuario(int idUsuario) {
 		this.idUsuario = idUsuario;
-	}
-	public int getIdHotel() {
-		return idHotel;
-	}
-	public void setIdHotel(int idHotel) {
-		this.idHotel = idHotel;
 	}
 	public int getIdVuelo() {
 		return idVuelo;

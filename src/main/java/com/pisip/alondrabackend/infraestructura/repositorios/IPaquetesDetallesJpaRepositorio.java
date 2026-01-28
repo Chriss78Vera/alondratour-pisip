@@ -10,8 +10,6 @@ import com.pisip.alondrabackend.infraestructura.persistencia.jpa.PaquetesDetalle
 
 public interface IPaquetesDetallesJpaRepositorio extends JpaRepository<PaquetesDetallesJpa, Integer> {
 
-	List<PaquetesDetallesJpa> findByHotel(String hotel);
-
 	@Query("SELECT p FROM PaquetesDetallesJpa p WHERE p.fechaInicio BETWEEN ?1 AND ?2 OR p.fechaFin BETWEEN ?1 AND ?2")
 	List<PaquetesDetallesJpa> findByRangoFechas(LocalDate inicio, LocalDate fin);
 }

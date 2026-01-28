@@ -8,13 +8,17 @@ public class Paquetes implements Serializable {
 
 	private final int idPaquete;
 	private final int idPaquetesDetalles;
+	private final String nombre;
+	private final String descripcion;
 	private final String pais;
 	private final String ciudad;
-	
-	public Paquetes(int idPaquete, int idPaquetesDetalles, String pais, String ciudad) {
+
+	public Paquetes(int idPaquete, int idPaquetesDetalles, String nombre, String descripcion, String pais, String ciudad) {
 		super();
 		this.idPaquete = idPaquete;
 		this.idPaquetesDetalles = idPaquetesDetalles;
+		this.nombre = nombre;
+		this.descripcion = descripcion;
 		this.pais = pais;
 		this.ciudad = ciudad;
 	}
@@ -31,6 +35,14 @@ public class Paquetes implements Serializable {
 		return idPaquetesDetalles;
 	}
 
+	public String getNombre() {
+		return nombre;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
 	public String getPais() {
 		return pais;
 	}
@@ -41,8 +53,8 @@ public class Paquetes implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Paquetes [idPaquete=" + idPaquete + ", idPaquetesDetalles=" + idPaquetesDetalles + ", pais=" + pais
-				+ ", ciudad=" + ciudad + "]";
+		return "Paquetes [idPaquete=" + idPaquete + ", idPaquetesDetalles=" + idPaquetesDetalles + ", nombre=" + nombre
+				+ ", descripcion=" + descripcion + ", pais=" + pais + ", ciudad=" + ciudad + "]";
 	}
 	
 	

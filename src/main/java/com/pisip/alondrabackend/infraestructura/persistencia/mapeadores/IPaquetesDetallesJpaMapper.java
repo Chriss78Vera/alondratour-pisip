@@ -12,5 +12,6 @@ public interface IPaquetesDetallesJpaMapper {
 	PaquetesDetalles toDomain(PaquetesDetallesJpa entity);
 
 	@Mapping(target = "paquetes", ignore = true)
+	@Mapping(target = "hoteles", ignore = true)
 	PaquetesDetallesJpa toEntity(PaquetesDetalles paquetesDetalles);
 }

@@ -10,16 +10,13 @@ public class PaquetesDetalles implements Serializable{
 	private final int idPaquetesDetalles;
 	private final LocalDate fechaInicio;
 	private final LocalDate fechaFin;
-	private final String hotel;
 	private final float precioNeto;
-	
-	public PaquetesDetalles(int idPaquetesDetalles, LocalDate fechaInicio, LocalDate fechaFin, String hotel,
-			float precioNeto) {
+
+	public PaquetesDetalles(int idPaquetesDetalles, LocalDate fechaInicio, LocalDate fechaFin, float precioNeto) {
 		super();
 		this.idPaquetesDetalles = idPaquetesDetalles;
 		this.fechaInicio = fechaInicio;
 		this.fechaFin = fechaFin;
-		this.hotel = hotel;
 		this.precioNeto = precioNeto;
 	}
 
@@ -39,10 +36,6 @@ public class PaquetesDetalles implements Serializable{
 		return fechaFin;
 	}
 
-	public String getHotel() {
-		return hotel;
-	}
-
 	public float getPrecioNeto() {
 		return precioNeto;
 	}
@@ -50,7 +43,7 @@ public class PaquetesDetalles implements Serializable{
 	@Override
 	public String toString() {
 		return "PaquetesDetalles [idPaquetesDetalles=" + idPaquetesDetalles + ", fechaInicio=" + fechaInicio
-				+ ", fechaFin=" + fechaFin + ", hotel=" + hotel + ", precioNeto=" + precioNeto + "]";
+				+ ", fechaFin=" + fechaFin + ", precioNeto=" + precioNeto + "]";
 	}
 	
 	

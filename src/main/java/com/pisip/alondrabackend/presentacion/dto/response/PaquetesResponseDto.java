@@ -6,6 +6,8 @@ import lombok.Data;
 public class PaquetesResponseDto {
 	private int idPaquete;
 	private int idPaquetesDetalles;
+	private String nombre;
+	private String descripcion;
 	private String pais;
 	private String ciudad;
 }
