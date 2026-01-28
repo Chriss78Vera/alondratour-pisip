@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "alondra-api-collection-2025",
 		"name": "Alondra Backend API",
-		"description": "Colección con todas las APIs: creaciones (POST) y consultas (GET) del backend Alondra. Orden sugerido de creación: 1-Agencias, 2-Usuarios, 3-Hoteles, 4-Vuelos, 5-PaquetesDetalles, 6-Paquetes, 7-Reservas, 8-Pasajeros, 9-ServiciosExtra.",
+		"description": "Colección con todas las APIs: creaciones (POST) y consultas (GET) del backend Alondra. Orden sugerido de creación: 1-Agencias, 2-Usuarios, 3-Hoteles, 4-Vuelos, 5-PaquetesDetalles, 6-Paquetes, 7-Reservas, 8-HotelesReservas, 9-Pasajeros, 10-ServiciosExtra.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"variable": [
@@ -63,23 +63,38 @@
 						"header": [{ "key": "Content-Type", "value": "application/json" }],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"idHotel\": 0,\n  \"idPaquetesDetalles\": 1,\n  \"nombre\": \"Hotel Playa Dorada\",\n  \"fechaCheckin\": \"2025-02-01\",\n  \"fechaCheckout\": \"2025-02-05\",\n  \"fechaExtraCheckin\": null,\n  \"fechaExtraCheckout\": null\n}"
+							"raw": "{\n  \"idHotel\": 0,\n  \"idPaquetesDetalles\": 1,\n  \"nombre\": \"Hotel Playa Dorada\"\n}"
 						},
 						"url": "{{baseUrl}}/api/hoteles",
-						"description": "Crea un nuevo hotel."
+						"description": "Crea un nuevo hotel (sin fechas; las fechas van en HotelesReservas por reserva)."
 					}
 				},
 				{ "name": "Listar todos", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles" } },
 				{ "name": "Buscar por Id", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles/buscarPorId?id=1" } },
 				{ "name": "Buscar por Nombre", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles/buscarPorNombre?nombre=Hotel Playa" } },
-				{ "name": "Buscar por Id Paquetes Detalles", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles/buscarPorIdPaquetesDetalles?idPaquetesDetalles=1" } },
-				{ "name": "Por fecha checkin", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles/fecha-checkin?fecha=2025-02-01" } },
-				{ "name": "Por fecha checkout", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles/fecha-checkout?fecha=2025-02-05" } },
-				{ "name": "Por rango fechas", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles/rango-fechas?inicio=2025-02-01&fin=2025-02-10" } },
-				{ "name": "Con fecha extra checkin", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles/isFechaExtra" } },
-				{ "name": "Por fecha extra checkin", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles/fecha-extra-checkin?fecha=2025-02-01" } },
-				{ "name": "Por fecha extra checkout", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles/fecha-extra-checkout?fecha=2025-02-05" } },
-				{ "name": "Por rango fechas extra", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles/rango-fechas-extra?inicio=2025-02-01&fin=2025-02-10" } }
+				{ "name": "Buscar por Id Paquetes Detalles", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles/buscarPorIdPaquetesDetalles?idPaquetesDetalles=1" } }
+			]
+		},
+		{
+			"name": "Hoteles Reservas",
+			"item": [
+				{
+					"name": "Crear Hotel Reserva",
+					"request": {
+						"method": "POST",
+						"header": [{ "key": "Content-Type", "value": "application/json" }],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idHotelReserva\": 0,\n  \"idReserva\": 1,\n  \"idHotel\": 1,\n  \"fechaCheckin\": \"2025-02-01\",\n  \"fechaCheckout\": \"2025-02-05\",\n  \"fechaExtraCheckin\": null,\n  \"fechaExtraCheckout\": null\n}"
+						},
+						"url": "{{baseUrl}}/api/hoteles-reservas",
+						"description": "Vincula un hotel a una reserva con fechas de check-in/checkout. idReserva e idHotel deben existir."
+					}
+				},
+				{ "name": "Listar todos", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles-reservas" } },
+				{ "name": "Buscar por Id", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles-reservas/buscarPorId?id=1" } },
+				{ "name": "Buscar por Id Reserva", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles-reservas/buscarPorIdReserva?idReserva=1", "description": "Devuelve todos los hoteles-reserva de una reserva." } },
+				{ "name": "Buscar por Id Hotel", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles-reservas/buscarPorIdHotel?idHotel=1", "description": "Devuelve todas las reservas-hotel para un hotel." } }
 			]
 		},
 		{
