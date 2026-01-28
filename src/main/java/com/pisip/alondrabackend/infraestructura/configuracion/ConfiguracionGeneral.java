@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.pisip.alondrabackend.aplicacion.casosuso.entradas.IAgenciasUseCase;
+import com.pisip.alondrabackend.aplicacion.casosuso.entradas.IHotelesReservasUseCase;
 import com.pisip.alondrabackend.aplicacion.casosuso.entradas.IHotelesUseCase;
 import com.pisip.alondrabackend.aplicacion.casosuso.entradas.IPaquetesDetallesUseCase;
 import com.pisip.alondrabackend.aplicacion.casosuso.entradas.IPaquetesUseCase;
@@ -13,6 +14,7 @@ import com.pisip.alondrabackend.aplicacion.casosuso.entradas.IServiciosExtraUseC
 import com.pisip.alondrabackend.aplicacion.casosuso.entradas.IUsuariosUseCase;
 import com.pisip.alondrabackend.aplicacion.casosuso.entradas.IVuelosUseCase;
 import com.pisip.alondrabackend.aplicacion.casosuso.impl.AgenciasUseCaseImpl;
+import com.pisip.alondrabackend.aplicacion.casosuso.impl.HotelesReservasUseCaseImpl;
 import com.pisip.alondrabackend.aplicacion.casosuso.impl.HotelesUseCaseImpl;
 import com.pisip.alondrabackend.aplicacion.casosuso.impl.PaquetesDetallesUseCaseImpl;
 import com.pisip.alondrabackend.aplicacion.casosuso.impl.PaquetesUseCaseImpl;
@@ -23,6 +25,7 @@ import com.pisip.alondrabackend.aplicacion.casosuso.impl.UsuariosUseCaseImpl;
 import com.pisip.alondrabackend.aplicacion.casosuso.impl.VuelosUseCaseImpl;
 import com.pisip.alondrabackend.dominio.repositorios.IAgenciasRepositorio;
 import com.pisip.alondrabackend.dominio.repositorios.IHotelesRepositorio;
+import com.pisip.alondrabackend.dominio.repositorios.IHotelesReservasRepositorio;
 import com.pisip.alondrabackend.dominio.repositorios.IPaquetesDetallesRepositorio;
 import com.pisip.alondrabackend.dominio.repositorios.IPaquetesRepositorio;
 import com.pisip.alondrabackend.dominio.repositorios.IPasajerosRepositorio;
@@ -32,6 +35,7 @@ import com.pisip.alondrabackend.dominio.repositorios.IUsuariosRepositorio;
 import com.pisip.alondrabackend.dominio.repositorios.IVuelosRepositorio;
 import com.pisip.alondrabackend.infraestructura.persistencia.adaptadores.AgenciasRepositorioImpl;
 import com.pisip.alondrabackend.infraestructura.persistencia.adaptadores.HotelesRepositorioImpl;
+import com.pisip.alondrabackend.infraestructura.persistencia.adaptadores.HotelesReservasRepositorioImpl;
 import com.pisip.alondrabackend.infraestructura.persistencia.adaptadores.PaquetesDetallesRepositorioImpl;
 import com.pisip.alondrabackend.infraestructura.persistencia.adaptadores.PaquetesRepositorioImpl;
 import com.pisip.alondrabackend.infraestructura.persistencia.adaptadores.PasajerosRepositorioImpl;
@@ -41,6 +45,7 @@ import com.pisip.alondrabackend.infraestructura.persistencia.adaptadores.Usuario
 import com.pisip.alondrabackend.infraestructura.persistencia.adaptadores.VuelosRepositorioImpl;
 import com.pisip.alondrabackend.infraestructura.persistencia.mapeadores.IAgenciasJpaMapper;
 import com.pisip.alondrabackend.infraestructura.persistencia.mapeadores.IHotelesJpaMapper;
+import com.pisip.alondrabackend.infraestructura.persistencia.mapeadores.IHotelesReservasJpaMapper;
 import com.pisip.alondrabackend.infraestructura.persistencia.mapeadores.IPaquetesDetallesJpaMapper;
 import com.pisip.alondrabackend.infraestructura.persistencia.mapeadores.IPaquetesJpaMapper;
 import com.pisip.alondrabackend.infraestructura.persistencia.mapeadores.IPasajerosJpaMapper;
@@ -50,6 +55,7 @@ import com.pisip.alondrabackend.infraestructura.persistencia.mapeadores.IUsuario
 import com.pisip.alondrabackend.infraestructura.persistencia.mapeadores.IVuelosJpaMapper;
 import com.pisip.alondrabackend.infraestructura.repositorios.IAgenciasJpaRepositorio;
 import com.pisip.alondrabackend.infraestructura.repositorios.IHotelesJpaRepositorio;
+import com.pisip.alondrabackend.infraestructura.repositorios.IHotelesReservasJpaRepositorio;
 import com.pisip.alondrabackend.infraestructura.repositorios.IPaquetesDetallesJpaRepositorio;
 import com.pisip.alondrabackend.infraestructura.repositorios.IPaquetesJpaRepositorio;
 import com.pisip.alondrabackend.infraestructura.repositorios.IPasajerosJpaRepositorio;
@@ -69,6 +75,18 @@ public class ConfiguracionGeneral {
 	@Bean
 	IHotelesUseCase HotelesUseCase(IHotelesRepositorio repositorio) {
 		return new HotelesUseCaseImpl(repositorio);
+	}
+
+	@Bean
+	IHotelesReservasRepositorio HotelesReservasRepositorio(IHotelesReservasJpaRepositorio jpaRepository,
+			IHotelesReservasJpaMapper mapper, IReservasJpaRepositorio reservasJpaRepositorio,
+			IHotelesJpaRepositorio hotelesJpaRepositorio) {
+		return new HotelesReservasRepositorioImpl(jpaRepository, mapper, reservasJpaRepositorio, hotelesJpaRepositorio);
+	}
+
+	@Bean
+	IHotelesReservasUseCase HotelesReservasUseCase(IHotelesReservasRepositorio repositorio) {
+		return new HotelesReservasUseCaseImpl(repositorio);
 	}
 
 	@Bean
