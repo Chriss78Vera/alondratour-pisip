@@ -12,6 +12,11 @@ public class PaquetesRequestDto {
 	private int idPaquetesDetalles;
 
 	@NotBlank
+	private String nombre;
+
+	private String descripcion;
+
+	@NotBlank
 	private String pais;
 
 	@NotBlank

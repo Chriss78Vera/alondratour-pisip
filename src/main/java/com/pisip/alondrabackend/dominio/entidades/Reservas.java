@@ -9,20 +9,18 @@ public class Reservas implements Serializable {
 
 	private final int idReserva;
 	private final int idUsuario;
-	private final int idHotel;
 	private final int idVuelo;
 	private final int idPaquete;
 	private final int idAgencia;
 	private final LocalDate fechaReserva;
 	private final float costoTotal;
 	private final boolean estado;
-	
-	public Reservas(int idReserva, int idUsuario, int idHotel, int idVuelo, int idPaquete, int idAgencia,
+
+	public Reservas(int idReserva, int idUsuario, int idVuelo, int idPaquete, int idAgencia,
 			LocalDate fechaReserva, float costoTotal, boolean estado) {
 		super();
 		this.idReserva = idReserva;
 		this.idUsuario = idUsuario;
-		this.idHotel = idHotel;
 		this.idVuelo = idVuelo;
 		this.idPaquete = idPaquete;
 		this.idAgencia = idAgencia;
@@ -31,21 +29,13 @@ public class Reservas implements Serializable {
 		this.estado = estado;
 	}
 
-
 	public int getIdReserva() {
 		return idReserva;
 	}
 
-
 	public int getIdUsuario() {
 		return idUsuario;
 	}
-
-
-	public int getIdHotel() {
-		return idHotel;
-	}
-
 
 	public int getIdVuelo() {
 		return idVuelo;
@@ -79,8 +69,8 @@ public class Reservas implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Reservas [idReserva=" + idReserva + ", idUsuario=" + idUsuario + ", idHotel=" + idHotel + ", idVuelo="
-				+ idVuelo + ", idPaquete=" + idPaquete + ", idAgencia=" + idAgencia + ", fechaReserva=" + fechaReserva
+		return "Reservas [idReserva=" + idReserva + ", idUsuario=" + idUsuario + ", idVuelo=" + idVuelo
+				+ ", idPaquete=" + idPaquete + ", idAgencia=" + idAgencia + ", fechaReserva=" + fechaReserva
 				+ ", costoTotal=" + costoTotal + ", estado=" + estado + "]";
 	}
 

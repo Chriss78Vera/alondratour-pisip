@@ -52,29 +52,17 @@ public class HotelesControlador {
 	
 	@GetMapping("/buscarPorNombre")
 	@ResponseStatus(HttpStatus.OK)
-	public List<HotelesResponseDto> hotelesPorNombre(@RequestParam String nombre){
-		return hotelesUseCase.hotelesPorNombre(nombre).stream().map(hotelesMapperDto::toResponse).toList();	
+	public List<HotelesResponseDto> hotelesPorNombre(@RequestParam String nombre) {
+		return hotelesUseCase.hotelesPorNombre(nombre).stream().map(hotelesMapperDto::toResponse).toList();
 	}
-	
-	@GetMapping("/buscarPorCiudad")
+
+	@GetMapping("/buscarPorIdPaquetesDetalles")
 	@ResponseStatus(HttpStatus.OK)
-	public List<HotelesResponseDto> hotelesPorCiudad(@RequestParam String ciudad){
-		return hotelesUseCase.hotelesPorCiudad(ciudad).stream().map(hotelesMapperDto::toResponse).toList();	
+	public List<HotelesResponseDto> hotelesPorIdPaquetesDetalles(@RequestParam int idPaquetesDetalles) {
+		return hotelesUseCase.hotelesPorIdPaquetesDetalles(idPaquetesDetalles).stream().map(hotelesMapperDto::toResponse).toList();
 	}
-	
-	@GetMapping("/buscarPorPais")
-	@ResponseStatus(HttpStatus.OK)
-	public List<HotelesResponseDto> hotelesPorPais(@RequestParam String pais){
-		return hotelesUseCase.hotelesPorPais(pais).stream().map(hotelesMapperDto::toResponse).toList();	
-	}
-	
-	@GetMapping("/buscarPorPaisYCiudad")
-	@ResponseStatus(HttpStatus.OK)
-	public List<HotelesResponseDto> hotelesPorPaisYCiudad(@RequestParam String pais, @RequestParam String ciudad ){
-		return hotelesUseCase.hotelesPorPaisYCiudad(pais, ciudad).stream().map(hotelesMapperDto::toResponse).toList();	
-	}
-	
-    @GetMapping("/fecha-checkin")
+
+	@GetMapping("/fecha-checkin")
     @ResponseStatus(HttpStatus.OK)
     public List<HotelesResponseDto> listarPorFechaDeCheckin(
             @RequestParam

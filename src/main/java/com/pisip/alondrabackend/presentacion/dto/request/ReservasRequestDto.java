@@ -13,8 +13,6 @@ public class ReservasRequestDto {
 	@NotBlank
 	private int idUsuario;
 	@NotBlank
-	private int idHotel;
-	@NotBlank
 	private int idVuelo;
 	@NotBlank
 	private int idPaquete;

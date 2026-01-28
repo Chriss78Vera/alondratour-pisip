@@ -33,6 +33,12 @@ public class PaquetesJpa implements Serializable {
 	private PaquetesDetallesJpa paquetesDetalles;
 
 	@Column(nullable = false)
+	private String nombre;
+
+	@Column(length = 2000)
+	private String descripcion;
+
+	@Column(nullable = false)
 	private String pais;
 
 	@Column(nullable = false)

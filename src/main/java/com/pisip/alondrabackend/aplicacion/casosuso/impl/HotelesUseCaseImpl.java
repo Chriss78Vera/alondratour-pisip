@@ -43,26 +43,12 @@ public class HotelesUseCaseImpl implements IHotelesUseCase {
 
 	@Override
 	public List<Hoteles> hotelesPorNombre(String nombre) {
-		// TODO Auto-generated method stub
 		return repositorio.hotelesPorNombre(nombre);
 	}
 
 	@Override
-	public List<Hoteles> hotelesPorCiudad(String ciudad) {
-		// TODO Auto-generated method stub
-		return repositorio.hotelesPorCiudad(ciudad);
-	}
-
-	@Override
-	public List<Hoteles> hotelesPorPais(String pais) {
-		// TODO Auto-generated method stub
-		return repositorio.hotelesPorPais(pais);
-	}
-
-	@Override
-	public List<Hoteles> hotelesPorPaisYCiudad(String pais, String ciudad) {
-		// TODO Auto-generated method stub
-		return repositorio.hotelesPorPaisYCiudad(pais, ciudad);
+	public List<Hoteles> hotelesPorIdPaquetesDetalles(int idPaquetesDetalles) {
+		return repositorio.hotelesPorIdPaquetesDetalles(idPaquetesDetalles);
 	}
 
 	@Override

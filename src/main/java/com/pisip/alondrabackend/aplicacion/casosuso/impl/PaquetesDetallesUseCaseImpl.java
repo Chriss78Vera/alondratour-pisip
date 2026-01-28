@@ -36,11 +36,6 @@ public class PaquetesDetallesUseCaseImpl implements IPaquetesDetallesUseCase {
 	}
 
 	@Override
-	public List<PaquetesDetalles> paquetesDetallesPorHotel(String hotel) {
-		return repositorio.paquetesDetallesPorHotel(hotel);
-	}
-
-	@Override
 	public List<PaquetesDetalles> paquetesDetallesPorRangoFechas(LocalDate inicio, LocalDate fin) {
 		return repositorio.paquetesDetallesPorRangoFechas(inicio, fin);
 	}

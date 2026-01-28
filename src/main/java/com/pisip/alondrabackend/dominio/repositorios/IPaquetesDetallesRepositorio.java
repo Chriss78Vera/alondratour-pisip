@@ -15,7 +15,5 @@ public interface IPaquetesDetallesRepositorio {
 
 	void eliminar(int id);
 
-	List<PaquetesDetalles> paquetesDetallesPorHotel(String hotel);
-
 	List<PaquetesDetalles> paquetesDetallesPorRangoFechas(LocalDate inicio, LocalDate fin);
 }

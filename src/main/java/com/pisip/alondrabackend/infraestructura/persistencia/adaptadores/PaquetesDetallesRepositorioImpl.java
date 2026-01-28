@@ -43,11 +43,6 @@ public class PaquetesDetallesRepositorioImpl implements IPaquetesDetallesReposit
 	}
 
 	@Override
-	public List<PaquetesDetalles> paquetesDetallesPorHotel(String hotel) {
-		return jpaRepositorio.findByHotel(hotel).stream().map(jpaMapper::toDomain).toList();
-	}
-
-	@Override
 	public List<PaquetesDetalles> paquetesDetallesPorRangoFechas(LocalDate inicio, LocalDate fin) {
 		return jpaRepositorio.findByRangoFechas(inicio, fin).stream().map(jpaMapper::toDomain).toList();
 	}

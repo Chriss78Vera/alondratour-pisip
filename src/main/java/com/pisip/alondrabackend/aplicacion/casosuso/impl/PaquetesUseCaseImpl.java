@@ -53,4 +53,14 @@ public class PaquetesUseCaseImpl implements IPaquetesUseCase {
 	public List<Paquetes> paquetesPorIdPaquetesDetalles(int idPaquetesDetalles) {
 		return repositorio.paquetesPorIdPaquetesDetalles(idPaquetesDetalles);
 	}
+
+	@Override
+	public List<String> paisesDistintos() {
+		return repositorio.paisesDistintos();
+	}
+
+	@Override
+	public List<String> ciudadesDistintas() {
+		return repositorio.ciudadesDistintas();
+	}
 }

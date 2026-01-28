@@ -11,28 +11,13 @@ import com.pisip.alondrabackend.infraestructura.persistencia.jpa.HotelesJpa;
 
 public interface IHotelesJpaRepositorio extends JpaRepository<HotelesJpa, Integer>{
 
-	/*
-	 * Query para obtener los hoteles por nombre
-	 */
-    @Query("SELECT h FROM HotelesJpa h WHERE h.nombre = ?1")
+	@Query("SELECT h FROM HotelesJpa h WHERE h.nombre = ?1")
 	public List<HotelesJpa> hotelesPorNombre(String nombre);
+
+	@Query("SELECT h FROM HotelesJpa h WHERE h.paquetesDetalles.idPaquetesDetalles = ?1")
+	public List<HotelesJpa> findByPaquetesDetallesIdPaquetesDetalles(int idPaquetesDetalles);
+
 	/*
-	 * Query para obtener los hoteles por cuidad
-	 */
-    @Query("SELECT h FROM HotelesJpa h WHERE h.ciudad = ?1")
-   	public List<HotelesJpa> hotelesPorCiudad(String ciudad);
-	/*
-	 * Query para obtener los hoteles por pais
-	 */
-    @Query("SELECT h FROM HotelesJpa h WHERE h.pais = ?1")
-   	public List<HotelesJpa> hotelesPorPais(String pais);
-	/*
-	 * Query para obtener los hoteles por cuidad
-	 */
-    @Query("SELECT h FROM HotelesJpa h WHERE h.pais = ?1 AND h.ciudad = ?2")
-   	public List<HotelesJpa> hotelesPorPaisYCiudad(String pais, String ciudad);
-    
-    /*
      * Hoteles por fecha de fecha Checkin
      */
     @Query("SELECT h FROM HotelesJpa h WHERE h.fechaCheckin = ?1")

@@ -22,11 +22,7 @@ public interface IHotelesUseCase {
 
 	List<Hoteles> hotelesPorNombre(String nombre);
 
-	List<Hoteles> hotelesPorCiudad(String ciudad);
-
-	List<Hoteles> hotelesPorPais(String pais);
-
-	List<Hoteles> hotelesPorPaisYCiudad(String pais, String ciudad);
+	List<Hoteles> hotelesPorIdPaquetesDetalles(int idPaquetesDetalles);
 
 	List<Hoteles> listarPorFechaDeCheckin(LocalDate fecha);
 

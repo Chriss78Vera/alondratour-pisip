@@ -17,8 +17,5 @@ public class PaquetesDetallesRequestDto {
 	private LocalDate fechaFin;
 
 	@NotBlank
-	private String hotel;
-
-	@NotBlank
 	private float precioNeto;
 }

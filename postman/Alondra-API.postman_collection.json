@@ -1,0 +1,225 @@
+{
+	"info": {
+		"_postman_id": "alondra-api-collection-2025",
+		"name": "Alondra Backend API",
+		"description": "Colección con todas las APIs: creaciones (POST) y consultas (GET) del backend Alondra. Orden sugerido de creación: 1-Agencias, 2-Usuarios, 3-Hoteles, 4-Vuelos, 5-PaquetesDetalles, 6-Paquetes, 7-Reservas, 8-Pasajeros, 9-ServiciosExtra.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{ "key": "baseUrl", "value": "http://localhost:8080" }
+	],
+	"item": [
+		{
+			"name": "Agencias",
+			"item": [
+				{
+					"name": "Crear Agencia",
+					"request": {
+						"method": "POST",
+						"header": [{ "key": "Content-Type", "value": "application/json" }],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idAgencia\": 0,\n  \"nombre\": \"Agencia Viajes XYZ\",\n  \"telefono\": \"+57 300 123 4567\"\n}"
+						},
+						"url": "{{baseUrl}}/api/agencias",
+						"description": "Crea una nueva agencia."
+					}
+				},
+				{ "name": "Listar todas", "request": { "method": "GET", "url": "{{baseUrl}}/api/agencias" } },
+				{ "name": "Buscar por Id", "request": { "method": "GET", "url": "{{baseUrl}}/api/agencias/buscarPorId?id=1" } },
+				{ "name": "Buscar por Nombre", "request": { "method": "GET", "url": "{{baseUrl}}/api/agencias/buscarPorNombre?nombre=Agencia Viajes XYZ" } }
+			]
+		},
+		{
+			"name": "Usuarios",
+			"item": [
+				{
+					"name": "Crear Usuario",
+					"request": {
+						"method": "POST",
+						"header": [{ "key": "Content-Type", "value": "application/json" }],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idUsuario\": 0,\n  \"nombre\": \"Juan Pérez\",\n  \"cedula\": \"1234567890\",\n  \"correo\": \"juan@example.com\",\n  \"rol\": \"CLIENTE\"\n}"
+						},
+						"url": "{{baseUrl}}/api/usuarios",
+						"description": "Crea un nuevo usuario."
+					}
+				},
+				{ "name": "Listar todos", "request": { "method": "GET", "url": "{{baseUrl}}/api/usuarios" } },
+				{ "name": "Buscar por Id", "request": { "method": "GET", "url": "{{baseUrl}}/api/usuarios/buscarPorId?id=1" } },
+				{ "name": "Buscar por Cedula", "request": { "method": "GET", "url": "{{baseUrl}}/api/usuarios/buscarPorCedula?cedula=1234567890" } },
+				{ "name": "Buscar por Correo", "request": { "method": "GET", "url": "{{baseUrl}}/api/usuarios/buscarPorCorreo?correo=juan@example.com" } },
+				{ "name": "Buscar por Rol", "request": { "method": "GET", "url": "{{baseUrl}}/api/usuarios/buscarPorRol?rol=CLIENTE" } }
+			]
+		},
+		{
+			"name": "Hoteles",
+			"item": [
+				{
+					"name": "Crear Hotel",
+					"request": {
+						"method": "POST",
+						"header": [{ "key": "Content-Type", "value": "application/json" }],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idHotel\": 0,\n  \"idPaquetesDetalles\": 1,\n  \"nombre\": \"Hotel Playa Dorada\",\n  \"fechaCheckin\": \"2025-02-01\",\n  \"fechaCheckout\": \"2025-02-05\",\n  \"fechaExtraCheckin\": null,\n  \"fechaExtraCheckout\": null\n}"
+						},
+						"url": "{{baseUrl}}/api/hoteles",
+						"description": "Crea un nuevo hotel."
+					}
+				},
+				{ "name": "Listar todos", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles" } },
+				{ "name": "Buscar por Id", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles/buscarPorId?id=1" } },
+				{ "name": "Buscar por Nombre", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles/buscarPorNombre?nombre=Hotel Playa" } },
+				{ "name": "Buscar por Id Paquetes Detalles", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles/buscarPorIdPaquetesDetalles?idPaquetesDetalles=1" } },
+				{ "name": "Por fecha checkin", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles/fecha-checkin?fecha=2025-02-01" } },
+				{ "name": "Por fecha checkout", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles/fecha-checkout?fecha=2025-02-05" } },
+				{ "name": "Por rango fechas", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles/rango-fechas?inicio=2025-02-01&fin=2025-02-10" } },
+				{ "name": "Con fecha extra checkin", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles/isFechaExtra" } },
+				{ "name": "Por fecha extra checkin", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles/fecha-extra-checkin?fecha=2025-02-01" } },
+				{ "name": "Por fecha extra checkout", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles/fecha-extra-checkout?fecha=2025-02-05" } },
+				{ "name": "Por rango fechas extra", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles/rango-fechas-extra?inicio=2025-02-01&fin=2025-02-10" } }
+			]
+		},
+		{
+			"name": "Vuelos",
+			"item": [
+				{
+					"name": "Crear Vuelo",
+					"request": {
+						"method": "POST",
+						"header": [{ "key": "Content-Type", "value": "application/json" }],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idVuelo\": 0,\n  \"aerolinea\": \"Avianca\",\n  \"origen\": \"BOG\",\n  \"destino\": \"CTG\",\n  \"fechaSalida\": \"2025-02-01\",\n  \"fechaLlegada\": \"2025-02-01\",\n  \"fechaExtraSalida\": null,\n  \"fechaExtraLlegada\": null\n}"
+						},
+						"url": "{{baseUrl}}/api/vuelos",
+						"description": "Crea un nuevo vuelo."
+					}
+				},
+				{ "name": "Listar todos", "request": { "method": "GET", "url": "{{baseUrl}}/api/vuelos" } },
+				{ "name": "Buscar por Id", "request": { "method": "GET", "url": "{{baseUrl}}/api/vuelos/buscarPorId?id=1" } },
+				{ "name": "Buscar por Aerolinea", "request": { "method": "GET", "url": "{{baseUrl}}/api/vuelos/buscarPorAerolinea?aerolinea=Avianca" } },
+				{ "name": "Buscar por Origen", "request": { "method": "GET", "url": "{{baseUrl}}/api/vuelos/buscarPorOrigen?origen=BOG" } },
+				{ "name": "Buscar por Destino", "request": { "method": "GET", "url": "{{baseUrl}}/api/vuelos/buscarPorDestino?destino=CTG" } },
+				{ "name": "Por fecha salida", "request": { "method": "GET", "url": "{{baseUrl}}/api/vuelos/fecha-salida?fecha=2025-02-01" } },
+				{ "name": "Por fecha llegada", "request": { "method": "GET", "url": "{{baseUrl}}/api/vuelos/fecha-llegada?fecha=2025-02-01" } },
+				{ "name": "Por rango fechas", "request": { "method": "GET", "url": "{{baseUrl}}/api/vuelos/rango-fechas?inicio=2025-02-01&fin=2025-02-28" } },
+				{ "name": "Con fecha extra salida", "request": { "method": "GET", "url": "{{baseUrl}}/api/vuelos/isFechaExtra" } },
+				{ "name": "Por fecha extra salida", "request": { "method": "GET", "url": "{{baseUrl}}/api/vuelos/fecha-extra-salida?fecha=2025-02-01" } },
+				{ "name": "Por fecha extra llegada", "request": { "method": "GET", "url": "{{baseUrl}}/api/vuelos/fecha-extra-llegada?fecha=2025-02-01" } },
+				{ "name": "Por rango fechas extra", "request": { "method": "GET", "url": "{{baseUrl}}/api/vuelos/rango-fechas-extra?inicio=2025-02-01&fin=2025-02-28" } }
+			]
+		},
+		{
+			"name": "Paquetes Detalles",
+			"item": [
+				{
+					"name": "Crear Paquete Detalle",
+					"request": {
+						"method": "POST",
+						"header": [{ "key": "Content-Type", "value": "application/json" }],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idPaquetesDetalles\": 0,\n  \"fechaInicio\": \"2025-02-01\",\n  \"fechaFin\": \"2025-02-07\",\n  \"precioNeto\": 1500000\n}"
+						},
+						"url": "{{baseUrl}}/api/paquetes-detalles",
+						"description": "Crea un detalle de paquete. Requerido antes de crear Paquetes."
+					}
+				},
+				{ "name": "Listar todos", "request": { "method": "GET", "url": "{{baseUrl}}/api/paquetes-detalles" } },
+				{ "name": "Buscar por Id", "request": { "method": "GET", "url": "{{baseUrl}}/api/paquetes-detalles/buscarPorId?id=1" } },
+				{ "name": "Buscar por Rango Fechas", "request": { "method": "GET", "url": "{{baseUrl}}/api/paquetes-detalles/buscarPorRangoFechas?inicio=2025-02-01&fin=2025-02-28" } }
+			]
+		},
+		{
+			"name": "Paquetes",
+			"item": [
+				{
+					"name": "Crear Paquete",
+					"request": {
+						"method": "POST",
+						"header": [{ "key": "Content-Type", "value": "application/json" }],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idPaquete\": 0,\n  \"idPaquetesDetalles\": 1,\n  \"nombre\": \"Paquete Caribe\",\n  \"descripcion\": \"Viaje todo incluido a Cartagena con hotel y vuelos\",\n  \"pais\": \"Colombia\",\n  \"ciudad\": \"Cartagena\"\n}"
+						},
+						"url": "{{baseUrl}}/api/paquetes",
+						"description": "Crea un paquete. idPaquetesDetalles debe existir (crear Paquetes Detalles antes)."
+					}
+				},
+				{ "name": "Listar todos", "request": { "method": "GET", "url": "{{baseUrl}}/api/paquetes" } },
+				{ "name": "Buscar por Id", "request": { "method": "GET", "url": "{{baseUrl}}/api/paquetes/buscarPorId?id=1" } },
+				{ "name": "Buscar por Pais", "request": { "method": "GET", "url": "{{baseUrl}}/api/paquetes/buscarPorPais?pais=Colombia" } },
+				{ "name": "Buscar por Ciudad", "request": { "method": "GET", "url": "{{baseUrl}}/api/paquetes/buscarPorCiudad?ciudad=Cartagena" } },
+				{ "name": "Buscar por Pais y Ciudad", "request": { "method": "GET", "url": "{{baseUrl}}/api/paquetes/buscarPorPaisYCiudad?pais=Colombia&ciudad=Cartagena", "description": "Trae todos los paquetes que pertenecen a esa combinacion de pais y ciudad." } },
+				{ "name": "Buscar por Id Paquetes Detalles", "request": { "method": "GET", "url": "{{baseUrl}}/api/paquetes/buscarPorIdPaquetesDetalles?idPaquetesDetalles=1" } },
+				{ "name": "Paises y Ciudades Distintos", "request": { "method": "GET", "url": "{{baseUrl}}/api/paquetes/paisesYCiudadesDistintos", "description": "Devuelve listas sin repetir de paises y ciudades de todos los paquetes." } },
+				{ "name": "Detalles con Hoteles por Id Paquete", "request": { "method": "GET", "url": "{{baseUrl}}/api/paquetes/detallesConHoteles?idPaquete=1", "description": "Devuelve idPaquetesDetalles y la lista de hoteles del paquete." } },
+				{ "name": "Detalles con Hoteles por Id Paquete e Id Detalle", "request": { "method": "GET", "url": "{{baseUrl}}/api/paquetes/detallesConHotelesPorPaqueteYDetalle?idPaquete=1&idPaquetesDetalles=1", "description": "Recibe idPaquete e idPaquetesDetalles. Valida que ese detalle pertenezca al paquete y devuelve idPaquetesDetalles y sus hoteles." } }
+			]
+		},
+		{
+			"name": "Reservas",
+			"item": [
+				{
+					"name": "Crear Reserva",
+					"request": {
+						"method": "POST",
+						"header": [{ "key": "Content-Type", "value": "application/json" }],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idReserva\": 0,\n  \"idUsuario\": 1,\n  \"idVuelo\": 1,\n  \"idPaquete\": 1,\n  \"idAgencia\": 1,\n  \"fechaReserva\": \"2025-01-27\",\n  \"costoTotal\": 2500000,\n  \"estado\": true\n}"
+						},
+						"url": "{{baseUrl}}/api/reservas",
+						"description": "Crea una reserva. Requiere ids existentes: usuario, vuelo, paquete, agencia."
+					}
+				},
+				{ "name": "Listar todas", "request": { "method": "GET", "url": "{{baseUrl}}/api/reservas" } }
+			]
+		},
+		{
+			"name": "Pasajeros",
+			"item": [
+				{
+					"name": "Crear Pasajero",
+					"request": {
+						"method": "POST",
+						"header": [{ "key": "Content-Type", "value": "application/json" }],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idPasajero\": 0,\n  \"idReserva\": 1,\n  \"nombre\": \"María\",\n  \"apellido\": \"García\",\n  \"cedula\": \"9876543210\",\n  \"fechaNacimiento\": \"1990-05-15\",\n  \"pasaporte\": true,\n  \"visa\": false\n}"
+						},
+						"url": "{{baseUrl}}/api/pasajeros",
+						"description": "Crea un pasajero. idReserva debe existir."
+					}
+				},
+				{ "name": "Listar todos", "request": { "method": "GET", "url": "{{baseUrl}}/api/pasajeros" } }
+			]
+		},
+		{
+			"name": "Servicios Extra",
+			"item": [
+				{
+					"name": "Crear Servicio Extra",
+					"request": {
+						"method": "POST",
+						"header": [{ "key": "Content-Type", "value": "application/json" }],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idServiciosExtra\": 0,\n  \"idReserva\": 1,\n  \"costo\": 150000,\n  \"tipoServicio\": \"TRASLADO\",\n  \"fechaInicio\": \"2025-02-01\",\n  \"fechaFin\": \"2025-02-01\"\n}"
+						},
+						"url": "{{baseUrl}}/api/servicios-extra",
+						"description": "Crea un servicio extra. idReserva debe existir."
+					}
+				},
+				{ "name": "Listar todos", "request": { "method": "GET", "url": "{{baseUrl}}/api/servicios-extra" } },
+				{ "name": "Buscar por Id", "request": { "method": "GET", "url": "{{baseUrl}}/api/servicios-extra/buscarPorId?id=1" } },
+				{ "name": "Buscar por Id Reserva", "request": { "method": "GET", "url": "{{baseUrl}}/api/servicios-extra/buscarPorIdReserva?idReserva=1" } },
+				{ "name": "Buscar por Tipo Servicio", "request": { "method": "GET", "url": "{{baseUrl}}/api/servicios-extra/buscarPorTipoServicio?tipoServicio=TRASLADO" } },
+				{ "name": "Buscar por Rango Fechas", "request": { "method": "GET", "url": "{{baseUrl}}/api/servicios-extra/buscarPorRangoFechas?inicio=2025-02-01&fin=2025-02-28" } }
+			]
+		}
+	]
+}

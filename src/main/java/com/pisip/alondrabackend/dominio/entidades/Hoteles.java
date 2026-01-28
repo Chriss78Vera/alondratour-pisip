@@ -8,21 +8,19 @@ public class Hoteles implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private final int idHotel;
+	private final int idPaquetesDetalles;
 	private final String nombre;
-	private final String ciudad;
-	private final String pais;
 	private final LocalDate fechaCheckin;
 	private final LocalDate fechaCheckout;
 	private final LocalDate fechaExtraCheckin;
 	private final LocalDate fechaExtraCheckout;
-	
-	public Hoteles(int idHotel, String nombre, String ciudad, String pais, LocalDate fechaCheckin,
+
+	public Hoteles(int idHotel, int idPaquetesDetalles, String nombre, LocalDate fechaCheckin,
 			LocalDate fechaCheckout, LocalDate fechaExtraCheckin, LocalDate fechaExtraCheckout) {
 		super();
 		this.idHotel = idHotel;
+		this.idPaquetesDetalles = idPaquetesDetalles;
 		this.nombre = nombre;
-		this.ciudad = ciudad;
-		this.pais = pais;
 		this.fechaCheckin = fechaCheckin;
 		this.fechaCheckout = fechaCheckout;
 		this.fechaExtraCheckin = fechaExtraCheckin;
@@ -37,16 +35,12 @@ public class Hoteles implements Serializable {
 		return idHotel;
 	}
 
+	public int getIdPaquetesDetalles() {
+		return idPaquetesDetalles;
+	}
+
 	public String getNombre() {
 		return nombre;
-	}
-
-	public String getCiudad() {
-		return ciudad;
-	}
-
-	public String getPais() {
-		return pais;
 	}
 
 	public LocalDate getFechaCheckin() {
@@ -67,7 +61,7 @@ public class Hoteles implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Hoteles [idHotel=" + idHotel + ", nombre=" + nombre + ", ciudad=" + ciudad + ", pais=" + pais
+		return "Hoteles [idHotel=" + idHotel + ", idPaquetesDetalles=" + idPaquetesDetalles + ", nombre=" + nombre
 				+ ", fechaCheckin=" + fechaCheckin + ", fechaCheckout=" + fechaCheckout + ", fechaExtraCheckin="
 				+ fechaExtraCheckin + ", fechaExtraCheckout=" + fechaExtraCheckout + "]";
 	}
