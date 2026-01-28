@@ -60,4 +60,7 @@ public class ReservasJpa implements Serializable {
 	@OneToMany(mappedBy = "reserva", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<ServiciosExtraJpa> serviciosExtra;
 
+	@OneToMany(mappedBy = "reserva", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<HotelesReservasJpa> hotelesReservas;
+
 }

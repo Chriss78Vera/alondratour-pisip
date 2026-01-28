@@ -13,12 +13,15 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pisip.alondrabackend.aplicacion.casosuso.entradas.IHotelesUseCase;
+import com.pisip.alondrabackend.aplicacion.casosuso.entradas.IPaquetesDetallesUseCase;
 import com.pisip.alondrabackend.aplicacion.casosuso.entradas.IPaquetesUseCase;
 import com.pisip.alondrabackend.presentacion.dto.request.PaquetesRequestDto;
+import com.pisip.alondrabackend.presentacion.dto.response.PaqueteCompletoResponseDto;
 import com.pisip.alondrabackend.presentacion.dto.response.PaisesYCiudadesDistintosResponseDto;
 import com.pisip.alondrabackend.presentacion.dto.response.PaqueteDetallesConHotelesResponseDto;
 import com.pisip.alondrabackend.presentacion.dto.response.PaquetesResponseDto;
 import com.pisip.alondrabackend.presentacion.mapeadores.IHotelesDtoMapper;
+import com.pisip.alondrabackend.presentacion.mapeadores.IPaquetesDetallesDtoMapper;
 import com.pisip.alondrabackend.presentacion.mapeadores.IPaquetesDtoMapper;
 
 import jakarta.validation.Valid;
@@ -28,21 +31,40 @@ import jakarta.validation.Valid;
 public class PaquetesControlador {
 	private final IPaquetesUseCase paquetesUseCase;
 	private final IPaquetesDtoMapper paquetesMapperDto;
+	private final IPaquetesDetallesUseCase paquetesDetallesUseCase;
+	private final IPaquetesDetallesDtoMapper paquetesDetallesMapperDto;
 	private final IHotelesUseCase hotelesUseCase;
 	private final IHotelesDtoMapper hotelesMapperDto;
 
 	public PaquetesControlador(IPaquetesUseCase paquetesUseCase, IPaquetesDtoMapper paquetesMapperDto,
+			IPaquetesDetallesUseCase paquetesDetallesUseCase, IPaquetesDetallesDtoMapper paquetesDetallesMapperDto,
 			IHotelesUseCase hotelesUseCase, IHotelesDtoMapper hotelesMapperDto) {
 		this.paquetesUseCase = paquetesUseCase;
 		this.paquetesMapperDto = paquetesMapperDto;
+		this.paquetesDetallesUseCase = paquetesDetallesUseCase;
+		this.paquetesDetallesMapperDto = paquetesDetallesMapperDto;
 		this.hotelesUseCase = hotelesUseCase;
 		this.hotelesMapperDto = hotelesMapperDto;
 	}
 
 	@GetMapping
 	@ResponseStatus(HttpStatus.OK)
-	public List<PaquetesResponseDto> listar() {
-		return paquetesUseCase.listarTodo().stream().map(paquetesMapperDto::toResponse).toList();
+	public List<PaqueteCompletoResponseDto> listar() {
+		return paquetesUseCase.listarTodo().stream().map(paquete -> {
+			var base = paquetesMapperDto.toResponse(paquete);
+			var detalle = paquetesDetallesUseCase.buscarPorId(paquete.getIdPaquetesDetalles());
+			var hoteles = hotelesUseCase.hotelesPorIdPaquetesDetalles(paquete.getIdPaquetesDetalles());
+			var hotelesDto = hoteles.stream().map(hotelesMapperDto::toResponse).toList();
+			return new PaqueteCompletoResponseDto(
+					base.getIdPaquete(),
+					base.getIdPaquetesDetalles(),
+					base.getNombre(),
+					base.getDescripcion(),
+					base.getPais(),
+					base.getCiudad(),
+					paquetesDetallesMapperDto.toResponse(detalle),
+					hotelesDto);
+		}).toList();
 	}
 
 	@PostMapping
