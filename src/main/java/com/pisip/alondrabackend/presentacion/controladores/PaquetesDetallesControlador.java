@@ -49,12 +49,6 @@ public class PaquetesDetallesControlador {
 		return paquetesDetallesMapperDto.toResponse(paquetesDetallesUseCase.buscarPorId(id));
 	}
 
-	@GetMapping("/buscarPorHotel")
-	@ResponseStatus(HttpStatus.OK)
-	public List<PaquetesDetallesResponseDto> paquetesDetallesPorHotel(@RequestParam String hotel) {
-		return paquetesDetallesUseCase.paquetesDetallesPorHotel(hotel).stream().map(paquetesDetallesMapperDto::toResponse).toList();
-	}
-
 	@GetMapping("/buscarPorRangoFechas")
 	@ResponseStatus(HttpStatus.OK)
 	public List<PaquetesDetallesResponseDto> paquetesDetallesPorRangoFechas(

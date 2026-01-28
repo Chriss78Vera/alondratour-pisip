@@ -11,6 +11,8 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -27,14 +29,12 @@ public class HotelesJpa implements Serializable {
 	@Column(name = "id_hotel")
 	private int idHotel;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_paquetes_detalles", nullable = false)
+	private PaquetesDetallesJpa paquetesDetalles;
+
 	@Column(nullable = false)
 	private String nombre;
-
-	@Column(nullable = false)
-	private String ciudad;
-
-	@Column(nullable = false)
-	private String pais;
 
 	@Column(name = "fecha_checkin", nullable = false)
 	private LocalDate fechaCheckin;
@@ -47,8 +47,5 @@ public class HotelesJpa implements Serializable {
 
 	@Column(name = "fecha_extra_checkout")
 	private LocalDate fechaExtraCheckout;
-
-	@OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private List<ReservasJpa> reservas;
 
 }

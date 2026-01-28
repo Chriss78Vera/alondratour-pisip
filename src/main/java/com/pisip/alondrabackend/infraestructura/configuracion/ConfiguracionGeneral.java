@@ -61,8 +61,9 @@ import com.pisip.alondrabackend.infraestructura.repositorios.IVuelosJpaRepositor
 @Configuration
 public class ConfiguracionGeneral {
 	@Bean
-	IHotelesRepositorio HotelesRepositorio(IHotelesJpaRepositorio jpaRepository, IHotelesJpaMapper mapper) {
-		return new HotelesRepositorioImpl(jpaRepository, mapper);
+	IHotelesRepositorio HotelesRepositorio(IHotelesJpaRepositorio jpaRepository, IHotelesJpaMapper mapper,
+			IPaquetesDetallesJpaRepositorio paquetesDetallesJpaRepositorio) {
+		return new HotelesRepositorioImpl(jpaRepository, mapper, paquetesDetallesJpaRepositorio);
 	}
 
 	@Bean
@@ -94,11 +95,10 @@ public class ConfiguracionGeneral {
 	
 	@Bean
 	IReservasRepositorio ReservasRepositorio(IReservasJpaRepositorio jpaRepository, IReservasJpaMapper mapper,
-			IUsuariosJpaRepositorio usuariosJpaRepositorio, IHotelesJpaRepositorio hotelesJpaRepositorio,
-			IVuelosJpaRepositorio vuelosJpaRepositorio, IPaquetesJpaRepositorio paquetesJpaRepositorio,
-			IAgenciasJpaRepositorio agenciasJpaRepositorio) {
-		return new ReservasRepositorioImpl(jpaRepository, mapper, usuariosJpaRepositorio, hotelesJpaRepositorio,
-				vuelosJpaRepositorio, paquetesJpaRepositorio, agenciasJpaRepositorio);
+			IUsuariosJpaRepositorio usuariosJpaRepositorio, IVuelosJpaRepositorio vuelosJpaRepositorio,
+			IPaquetesJpaRepositorio paquetesJpaRepositorio, IAgenciasJpaRepositorio agenciasJpaRepositorio) {
+		return new ReservasRepositorioImpl(jpaRepository, mapper, usuariosJpaRepositorio, vuelosJpaRepositorio,
+				paquetesJpaRepositorio, agenciasJpaRepositorio);
 	}
 	
 	@Bean

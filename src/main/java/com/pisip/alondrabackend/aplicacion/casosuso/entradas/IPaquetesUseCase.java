@@ -20,4 +20,8 @@ public interface IPaquetesUseCase {
 	List<Paquetes> paquetesPorPaisYCiudad(String pais, String ciudad);
 
 	List<Paquetes> paquetesPorIdPaquetesDetalles(int idPaquetesDetalles);
+
+	List<String> paisesDistintos();
+
+	List<String> ciudadesDistintas();
 }

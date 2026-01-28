@@ -7,18 +7,15 @@ import lombok.Data;
 @Data
 public class HotelesRequestDto {
 	@NotBlank
-	private  int idHotel;
+	private int idHotel;
 	@NotBlank
-	private  String nombre;
+	private int idPaquetesDetalles;
 	@NotBlank
-	private  String ciudad;
+	private String nombre;
 	@NotBlank
-	private  String pais;
+	private LocalDate fechaCheckin;
 	@NotBlank
-	private  LocalDate fechaCheckin;
-	@NotBlank
-	private  LocalDate fechaCheckout;
-	
-	private  LocalDate fechaExtraCheckin;
-	private  LocalDate fechaExtraCheckout;
+	private LocalDate fechaCheckout;
+	private LocalDate fechaExtraCheckin;
+	private LocalDate fechaExtraCheckout;
 }

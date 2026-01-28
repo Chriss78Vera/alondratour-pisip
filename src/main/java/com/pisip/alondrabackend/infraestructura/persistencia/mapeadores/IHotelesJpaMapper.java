@@ -8,8 +8,10 @@ import com.pisip.alondrabackend.infraestructura.persistencia.jpa.HotelesJpa;
 
 @Mapper(componentModel = "spring")
 public interface IHotelesJpaMapper {
+
+	@Mapping(source = "paquetesDetalles.idPaquetesDetalles", target = "idPaquetesDetalles")
 	Hoteles toDomain(HotelesJpa entity);
 
-	@Mapping(target = "reservas", ignore = true)
+	@Mapping(target = "paquetesDetalles", ignore = true)
 	HotelesJpa toEntity(Hoteles hotel);
 }

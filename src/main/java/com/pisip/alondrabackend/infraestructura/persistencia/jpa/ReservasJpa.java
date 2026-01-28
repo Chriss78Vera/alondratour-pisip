@@ -34,10 +34,6 @@ public class ReservasJpa implements Serializable {
 	private UsuariosJpa usuario;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_hotel", nullable = false)
-	private HotelesJpa hotel;
-
-	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_vuelo", nullable = false)
 	private VuelosJpa vuelo;
 

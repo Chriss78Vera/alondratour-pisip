@@ -33,13 +33,13 @@ public class PaquetesDetallesJpa implements Serializable {
 	@Column(name = "fecha_fin", nullable = false)
 	private LocalDate fechaFin;
 
-	@Column(nullable = false)
-	private String hotel;
-
 	@Column(name = "precio_neto", nullable = false)
 	private float precioNeto;
 
 	@OneToMany(mappedBy = "paquetesDetalles", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<PaquetesJpa> paquetes;
+
+	@OneToMany(mappedBy = "paquetesDetalles", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<HotelesJpa> hoteles;
 
 }
