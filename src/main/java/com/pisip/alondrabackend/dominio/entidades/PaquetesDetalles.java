@@ -10,14 +10,12 @@ public class PaquetesDetalles implements Serializable{
 	private final int idPaquetesDetalles;
 	private final LocalDate fechaInicio;
 	private final LocalDate fechaFin;
-	private final float precioNeto;
 
-	public PaquetesDetalles(int idPaquetesDetalles, LocalDate fechaInicio, LocalDate fechaFin, float precioNeto) {
+	public PaquetesDetalles(int idPaquetesDetalles, LocalDate fechaInicio, LocalDate fechaFin) {
 		super();
 		this.idPaquetesDetalles = idPaquetesDetalles;
 		this.fechaInicio = fechaInicio;
 		this.fechaFin = fechaFin;
-		this.precioNeto = precioNeto;
 	}
 
 	public static long getSerialversionuid() {
@@ -36,14 +34,10 @@ public class PaquetesDetalles implements Serializable{
 		return fechaFin;
 	}
 
-	public float getPrecioNeto() {
-		return precioNeto;
-	}
-
 	@Override
 	public String toString() {
 		return "PaquetesDetalles [idPaquetesDetalles=" + idPaquetesDetalles + ", fechaInicio=" + fechaInicio
-				+ ", fechaFin=" + fechaFin + ", precioNeto=" + precioNeto + "]";
+				+ ", fechaFin=" + fechaFin + "]";
 	}
 	
 	

@@ -15,7 +15,4 @@ public class PaquetesDetallesRequestDto {
 
 	@NotBlank
 	private LocalDate fechaFin;
-
-	@NotBlank
-	private float precioNeto;
 }

@@ -52,6 +52,11 @@ public class UsuariosRepositorioImpl implements IUsuariosRepositorio {
 	}
 
 	@Override
+	public Optional<Usuarios> buscarPorTokenAuth(String tokenAuth) {
+		return jpaRepositorio.findByTokenAuth(tokenAuth).map(jpaMapper::toDomain);
+	}
+
+	@Override
 	public List<Usuarios> listarPorRol(String rol) {
 		return jpaRepositorio.findByRol(rol).stream().map(jpaMapper::toDomain).toList();
 	}

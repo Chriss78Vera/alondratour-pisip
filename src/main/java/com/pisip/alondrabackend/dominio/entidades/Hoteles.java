@@ -9,12 +9,14 @@ public class Hoteles implements Serializable {
 	private final int idHotel;
 	private final int idPaquetesDetalles;
 	private final String nombre;
+	private final float precio;
 
-	public Hoteles(int idHotel, int idPaquetesDetalles, String nombre) {
+	public Hoteles(int idHotel, int idPaquetesDetalles, String nombre, float precio) {
 		super();
 		this.idHotel = idHotel;
 		this.idPaquetesDetalles = idPaquetesDetalles;
 		this.nombre = nombre;
+		this.precio = precio;
 	}
 
 	public static long getSerialversionuid() {
@@ -33,8 +35,12 @@ public class Hoteles implements Serializable {
 		return nombre;
 	}
 
+	public float getPrecio() {
+		return precio;
+	}
+
 	@Override
 	public String toString() {
-		return "Hoteles [idHotel=" + idHotel + ", idPaquetesDetalles=" + idPaquetesDetalles + ", nombre=" + nombre + "]";
+		return "Hoteles [idHotel=" + idHotel + ", idPaquetesDetalles=" + idPaquetesDetalles + ", nombre=" + nombre + ", precio=" + precio + "]";
 	}
 }

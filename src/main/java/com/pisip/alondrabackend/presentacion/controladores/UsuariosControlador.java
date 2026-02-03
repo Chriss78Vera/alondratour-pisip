@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import com.pisip.alondrabackend.aplicacion.casosuso.entradas.IUsuariosUseCase;
+import com.pisip.alondrabackend.dominio.entidades.Usuarios;
 import com.pisip.alondrabackend.presentacion.dto.request.UsuariosRequestDto;
 import com.pisip.alondrabackend.presentacion.dto.response.UsuariosResponseDto;
 import com.pisip.alondrabackend.presentacion.mapeadores.IUsuariosDtoMapper;
@@ -23,10 +26,13 @@ import jakarta.validation.Valid;
 public class UsuariosControlador {
 	private final IUsuariosUseCase usuariosUseCase;
 	private final IUsuariosDtoMapper usuariosMapperDto;
+	private final PasswordEncoder passwordEncoder;
 
-	public UsuariosControlador(IUsuariosUseCase usuariosUseCase, IUsuariosDtoMapper usuariosMapperDto) {
+	public UsuariosControlador(IUsuariosUseCase usuariosUseCase, IUsuariosDtoMapper usuariosMapperDto,
+			PasswordEncoder passwordEncoder) {
 		this.usuariosUseCase = usuariosUseCase;
 		this.usuariosMapperDto = usuariosMapperDto;
+		this.passwordEncoder = passwordEncoder;
 	}
 
 	@GetMapping
@@ -37,8 +43,10 @@ public class UsuariosControlador {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public UsuariosResponseDto crear(@Valid @RequestBody UsuariosRequestDto usuarios) {
-		return usuariosMapperDto.toResponse(usuariosUseCase.guardar(usuariosMapperDto.toDomain(usuarios)));
+	public UsuariosResponseDto crear(@Valid @RequestBody UsuariosRequestDto dto) {
+		String passwordHash = passwordEncoder.encode(dto.getPassword());
+		Usuarios usuario = new Usuarios(0, dto.getNombre(), dto.getCedula(), dto.getCorreo(), dto.getRol(), passwordHash, null, null);
+		return usuariosMapperDto.toResponse(usuariosUseCase.guardar(usuario));
 	}
 
 	@GetMapping("/buscarPorId")

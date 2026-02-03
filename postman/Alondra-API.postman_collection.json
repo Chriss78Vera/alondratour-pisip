@@ -10,6 +10,58 @@
 	],
 	"item": [
 		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login (cedula + password)",
+					"request": {
+						"method": "POST",
+						"header": [{ "key": "Content-Type", "value": "application/json" }],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cedula\": \"1234567890\",\n  \"password\": \"miPassword123\"\n}"
+						},
+						"url": "{{baseUrl}}/api/auth/login",
+						"description": "Login con cédula y contraseña. Actualiza el usuario con token_auth y fecha_auth_exp (ahora + 1h). Respuesta: success, message, token (el token_auth generado)."
+					}
+				},
+				{
+					"name": "Login con token",
+					"request": {
+						"method": "POST",
+						"header": [{ "key": "Content-Type", "value": "application/json" }],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"tokenAuth\": \"TOKEN_OBTENIDO_DEL_LOGIN_ANTERIOR\"\n}"
+						},
+						"url": "{{baseUrl}}/api/auth/loginToken",
+						"description": "Valida token_auth. Si está dentro de fecha_auth_exp (1h desde el login) retorna 200 + success + token. Si expirado o inválido retorna 401."
+					}
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [{ "key": "Content-Type", "value": "application/json" }],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"tokenAuth\": \"TOKEN_OBTENIDO_DEL_LOGIN\"\n}"
+						},
+						"url": "{{baseUrl}}/api/auth/logout",
+						"description": "Logout: envía token_auth. Busca el usuario por ese token y actualiza token_auth y fecha_auth_exp a null. 200 si ok, 401 si token no encontrado."
+					}
+				},
+				{
+					"name": "Obtener usuario por token (OAuth)",
+					"request": {
+						"method": "GET",
+						"url": "{{baseUrl}}/api/auth/usuario?tokenAuth=TOKEN_OBTENIDO_DEL_LOGIN",
+						"description": "OAuth: envía token_auth por query param. Valida el token y su expiración. Retorna los datos del usuario (idUsuario, nombre, cedula, correo, rol). 200 si ok, 401 si token inválido o expirado."
+					}
+				}
+			]
+		},
+		{
 			"name": "Agencias",
 			"item": [
 				{
@@ -19,7 +71,7 @@
 						"header": [{ "key": "Content-Type", "value": "application/json" }],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"idAgencia\": 0,\n  \"nombre\": \"Agencia Viajes XYZ\",\n  \"telefono\": \"+57 300 123 4567\"\n}"
+							"raw": "{\n  \"idAgencia\": 0,\n  \"nombre\": \"Agencia Viajes XYZ\",\n  \"telefono\": \"+57 300 123 4567\",\n  \"email\": \"contacto@agenciaxyz.com\"\n}"
 						},
 						"url": "{{baseUrl}}/api/agencias",
 						"description": "Crea una nueva agencia."
@@ -40,10 +92,10 @@
 						"header": [{ "key": "Content-Type", "value": "application/json" }],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"idUsuario\": 0,\n  \"nombre\": \"Juan Pérez\",\n  \"cedula\": \"1234567890\",\n  \"correo\": \"juan@example.com\",\n  \"rol\": \"CLIENTE\"\n}"
+							"raw": "{\n  \"idUsuario\": 0,\n  \"nombre\": \"Juan Pérez\",\n  \"cedula\": \"1234567890\",\n  \"correo\": \"juan@example.com\",\n  \"rol\": \"CLIENTE\",\n  \"password\": \"miPassword123\"\n}"
 						},
 						"url": "{{baseUrl}}/api/usuarios",
-						"description": "Crea un nuevo usuario."
+						"description": "Crea un nuevo usuario. La contraseña se guarda encriptada (BCrypt) en BD. Para login usar cédula como usuario."
 					}
 				},
 				{ "name": "Listar todos", "request": { "method": "GET", "url": "{{baseUrl}}/api/usuarios" } },
@@ -63,7 +115,7 @@
 						"header": [{ "key": "Content-Type", "value": "application/json" }],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"idHotel\": 0,\n  \"idPaquetesDetalles\": 1,\n  \"nombre\": \"Hotel Playa Dorada\"\n}"
+							"raw": "{\n  \"idHotel\": 0,\n  \"idPaquetesDetalles\": 1,\n  \"nombre\": \"Hotel Playa Dorada\",\n  \"precio\": 150000\n}"
 						},
 						"url": "{{baseUrl}}/api/hoteles",
 						"description": "Crea un nuevo hotel (sin fechas; las fechas van en HotelesReservas por reserva)."
@@ -93,7 +145,7 @@
 				},
 				{ "name": "Listar todos", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles-reservas" } },
 				{ "name": "Buscar por Id", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles-reservas/buscarPorId?id=1" } },
-				{ "name": "Buscar por Id Reserva", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles-reservas/buscarPorIdReserva?idReserva=1", "description": "Devuelve todos los hoteles-reserva de una reserva." } },
+				{ "name": "Buscar por Id Reserva", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles-reservas/buscarPorIdReserva?idReserva=1", "description": "Devuelve todos los hoteles-reserva de una reserva con todos los datos del hotel (idHotel, idPaquetesDetalles, nombre, precio)." } },
 				{ "name": "Buscar por Id Hotel", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles-reservas/buscarPorIdHotel?idHotel=1", "description": "Devuelve todas las reservas-hotel para un hotel." } }
 			]
 		},
@@ -137,7 +189,7 @@
 						"header": [{ "key": "Content-Type", "value": "application/json" }],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"idPaquetesDetalles\": 0,\n  \"fechaInicio\": \"2025-02-01\",\n  \"fechaFin\": \"2025-02-07\",\n  \"precioNeto\": 1500000\n}"
+							"raw": "{\n  \"idPaquetesDetalles\": 0,\n  \"fechaInicio\": \"2025-02-01\",\n  \"fechaFin\": \"2025-02-07\"\n}"
 						},
 						"url": "{{baseUrl}}/api/paquetes-detalles",
 						"description": "Crea un detalle de paquete. Requerido antes de crear Paquetes."
@@ -210,7 +262,8 @@
 						"description": "Crea un pasajero. idReserva debe existir."
 					}
 				},
-				{ "name": "Listar todos", "request": { "method": "GET", "url": "{{baseUrl}}/api/pasajeros" } }
+				{ "name": "Listar todos", "request": { "method": "GET", "url": "{{baseUrl}}/api/pasajeros" } },
+				{ "name": "Buscar por Id Reserva", "request": { "method": "GET", "url": "{{baseUrl}}/api/pasajeros/buscarPorIdReserva?idReserva=1", "description": "Devuelve todos los pasajeros de una reserva." } }
 			]
 		},
 		{

@@ -11,4 +11,6 @@ public class HotelesRequestDto {
 	private Integer idPaquetesDetalles;
 	@NotBlank
 	private String nombre;
+	@NotNull
+	private Float precio;
 }

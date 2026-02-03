@@ -18,5 +18,7 @@ public interface IUsuariosRepositorio {
 
 	Optional<Usuarios> buscarPorCorreo(String correo);
 
+	Optional<Usuarios> buscarPorTokenAuth(String tokenAuth);
+
 	List<Usuarios> listarPorRol(String rol);
 }

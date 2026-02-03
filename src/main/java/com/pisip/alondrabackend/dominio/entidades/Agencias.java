@@ -9,12 +9,13 @@ public class Agencias implements Serializable {
 	private final int idAgencia;
 	private final String nombre;
 	private final String telefono;
-	
-	
-	public Agencias(int idAgencia, String nombre, String telefono) {
+	private final String email;
+
+	public Agencias(int idAgencia, String nombre, String telefono, String email) {
 		this.idAgencia = idAgencia;
 		this.nombre = nombre;
 		this.telefono = telefono;
+		this.email = email;
 	}
 
 	
@@ -41,7 +42,9 @@ public class Agencias implements Serializable {
 		return telefono;
 	}
 
-
+	public String getEmail() {
+		return email;
+	}
 
 	@Override
 	public String toString() {

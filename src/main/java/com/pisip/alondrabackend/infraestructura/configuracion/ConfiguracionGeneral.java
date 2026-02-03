@@ -2,8 +2,11 @@ package com.pisip.alondrabackend.infraestructura.configuracion;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.pisip.alondrabackend.aplicacion.casosuso.entradas.IAgenciasUseCase;
+import com.pisip.alondrabackend.aplicacion.casosuso.entradas.IAuthUseCase;
 import com.pisip.alondrabackend.aplicacion.casosuso.entradas.IHotelesReservasUseCase;
 import com.pisip.alondrabackend.aplicacion.casosuso.entradas.IHotelesUseCase;
 import com.pisip.alondrabackend.aplicacion.casosuso.entradas.IPaquetesDetallesUseCase;
@@ -14,6 +17,7 @@ import com.pisip.alondrabackend.aplicacion.casosuso.entradas.IServiciosExtraUseC
 import com.pisip.alondrabackend.aplicacion.casosuso.entradas.IUsuariosUseCase;
 import com.pisip.alondrabackend.aplicacion.casosuso.entradas.IVuelosUseCase;
 import com.pisip.alondrabackend.aplicacion.casosuso.impl.AgenciasUseCaseImpl;
+import com.pisip.alondrabackend.aplicacion.casosuso.impl.AuthUseCaseImpl;
 import com.pisip.alondrabackend.aplicacion.casosuso.impl.HotelesReservasUseCaseImpl;
 import com.pisip.alondrabackend.aplicacion.casosuso.impl.HotelesUseCaseImpl;
 import com.pisip.alondrabackend.aplicacion.casosuso.impl.PaquetesDetallesUseCaseImpl;
@@ -87,6 +91,16 @@ public class ConfiguracionGeneral {
 	@Bean
 	IHotelesReservasUseCase HotelesReservasUseCase(IHotelesReservasRepositorio repositorio) {
 		return new HotelesReservasUseCaseImpl(repositorio);
+	}
+
+	@Bean
+	PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+
+	@Bean
+	IAuthUseCase AuthUseCase(IUsuariosRepositorio usuariosRepositorio, PasswordEncoder passwordEncoder) {
+		return new AuthUseCaseImpl(usuariosRepositorio, passwordEncoder);
 	}
 
 	@Bean
