@@ -7,4 +7,5 @@ public class AgenciasResponseDto {
 	private int idAgencia;
 	private String nombre;
 	private String telefono;
+	private String email;
 }

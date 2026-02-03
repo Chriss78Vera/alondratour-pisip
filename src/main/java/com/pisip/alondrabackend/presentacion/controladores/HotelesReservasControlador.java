@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pisip.alondrabackend.aplicacion.casosuso.entradas.IHotelesReservasUseCase;
+import com.pisip.alondrabackend.aplicacion.casosuso.entradas.IHotelesUseCase;
 import com.pisip.alondrabackend.presentacion.dto.request.HotelesReservasRequestDto;
 import com.pisip.alondrabackend.presentacion.dto.response.HotelesReservasResponseDto;
+import com.pisip.alondrabackend.presentacion.mapeadores.IHotelesDtoMapper;
 import com.pisip.alondrabackend.presentacion.mapeadores.IHotelesReservasDtoMapper;
 
 import jakarta.validation.Valid;
@@ -23,11 +25,16 @@ import jakarta.validation.Valid;
 public class HotelesReservasControlador {
 	private final IHotelesReservasUseCase hotelesReservasUseCase;
 	private final IHotelesReservasDtoMapper hotelesReservasMapperDto;
+	private final IHotelesUseCase hotelesUseCase;
+	private final IHotelesDtoMapper hotelesMapperDto;
 
 	public HotelesReservasControlador(IHotelesReservasUseCase hotelesReservasUseCase,
-			IHotelesReservasDtoMapper hotelesReservasMapperDto) {
+			IHotelesReservasDtoMapper hotelesReservasMapperDto, IHotelesUseCase hotelesUseCase,
+			IHotelesDtoMapper hotelesMapperDto) {
 		this.hotelesReservasUseCase = hotelesReservasUseCase;
 		this.hotelesReservasMapperDto = hotelesReservasMapperDto;
+		this.hotelesUseCase = hotelesUseCase;
+		this.hotelesMapperDto = hotelesMapperDto;
 	}
 
 	@GetMapping
@@ -53,7 +60,12 @@ public class HotelesReservasControlador {
 	@ResponseStatus(HttpStatus.OK)
 	public List<HotelesReservasResponseDto> hotelesReservasPorIdReserva(@RequestParam int idReserva) {
 		return hotelesReservasUseCase.hotelesReservasPorIdReserva(idReserva).stream()
-				.map(hotelesReservasMapperDto::toResponse).toList();
+				.map(hr -> {
+					HotelesReservasResponseDto dto = hotelesReservasMapperDto.toResponse(hr);
+					dto.setHotel(hotelesMapperDto.toResponse(hotelesUseCase.buscarPorId(hr.getIdHotel())));
+					return dto;
+				})
+				.toList();
 	}
 
 	@GetMapping("/buscarPorIdHotel")

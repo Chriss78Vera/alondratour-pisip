@@ -42,6 +42,11 @@ public class PasajerosRepositorioImpl implements IPasajerosRepositorio{
 	}
 
 	@Override
+	public List<Pasajeros> listarPorIdReserva(int idReserva) {
+		return jpaRepositorio.findByReservaIdReserva(idReserva).stream().map(jpaMapper::toDomain).toList();
+	}
+
+	@Override
 	public void eliminar(int id) {	
 		jpaRepositorio.deleteById(id);
 		

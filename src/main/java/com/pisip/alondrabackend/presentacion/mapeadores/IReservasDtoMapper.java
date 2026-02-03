@@ -1,16 +1,15 @@
 package com.pisip.alondrabackend.presentacion.mapeadores;
 
-import org.mapstruct.Mapper;
-
+import com.pisip.alondrabackend.dominio.entidades.Agencias;
+import com.pisip.alondrabackend.dominio.entidades.Paquetes;
 import com.pisip.alondrabackend.dominio.entidades.Reservas;
+import com.pisip.alondrabackend.dominio.entidades.Vuelos;
 import com.pisip.alondrabackend.presentacion.dto.request.ReservasRequestDto;
+import com.pisip.alondrabackend.presentacion.dto.response.ReservasResponseDto;
 
-
-@Mapper(componentModel = "spring")
 public interface IReservasDtoMapper {
-	
-	Reservas toDomain(ReservasRequestDto dto); // de DTO a entidad de dominio
-	
-	ReservasRequestDto toResponseDto (Reservas reservas);
 
+	Reservas toDomain(ReservasRequestDto dto);
+
+	ReservasResponseDto toResponseDto(Reservas reserva, Agencias agencia, Paquetes paquete, Vuelos vuelo);
 }

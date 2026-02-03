@@ -11,7 +11,8 @@ public interface IPasajerosUseCase {
 	Pasajeros obtenerPorId(int id);
 	
 	List<Pasajeros> listar();
-	
-	void eliminar(int id);
 
+	List<Pasajeros> listarPorIdReserva(int idReserva);
+
+	void eliminar(int id);
 }

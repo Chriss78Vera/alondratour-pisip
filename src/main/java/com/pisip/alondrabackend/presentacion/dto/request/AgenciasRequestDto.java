@@ -5,7 +5,6 @@ import lombok.Data;
 
 @Data
 public class AgenciasRequestDto {
-	@NotBlank
 	private int idAgencia;
 
 	@NotBlank
@@ -13,4 +12,6 @@ public class AgenciasRequestDto {
 
 	@NotBlank
 	private String telefono;
+
+	private String email;
 }

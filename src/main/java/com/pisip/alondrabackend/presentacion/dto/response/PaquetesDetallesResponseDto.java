@@ -9,5 +9,4 @@ public class PaquetesDetallesResponseDto {
 	private int idPaquetesDetalles;
 	private LocalDate fechaInicio;
 	private LocalDate fechaFin;
-	private float precioNeto;
 }

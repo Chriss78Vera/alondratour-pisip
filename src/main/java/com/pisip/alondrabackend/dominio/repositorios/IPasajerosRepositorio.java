@@ -12,7 +12,8 @@ public interface IPasajerosRepositorio {
 	Optional<Pasajeros> bucarPorId(int id);
 	
 	List<Pasajeros> listarTodos();
-	
-	void eliminar (int id);
 
+	List<Pasajeros> listarPorIdReserva(int idReserva);
+
+	void eliminar(int id);
 }
