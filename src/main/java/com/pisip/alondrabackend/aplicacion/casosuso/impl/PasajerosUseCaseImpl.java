@@ -30,6 +30,11 @@ public class PasajerosUseCaseImpl implements IPasajerosUseCase{
 	}
 
 	@Override
+	public List<Pasajeros> listarPorIdReserva(int idReserva) {
+		return repositorio.listarPorIdReserva(idReserva);
+	}
+
+	@Override
 	public void eliminar(int id) {
 		repositorio.eliminar(id);	
 		

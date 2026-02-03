@@ -1,6 +1,7 @@
 package com.pisip.alondrabackend.infraestructura.persistencia.jpa;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -37,6 +38,15 @@ public class UsuariosJpa implements Serializable {
 
 	@Column(nullable = false)
 	private String rol;
+
+	@Column(name = "password_hash", nullable = true, length = 255)
+	private String passwordHash;
+
+	@Column(name = "token_auth", nullable = true, length = 255)
+	private String tokenAuth;
+
+	@Column(name = "fecha_auth_exp", nullable = true)
+	private LocalDateTime fechaAuthExp;
 
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<ReservasJpa> reservas;

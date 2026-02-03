@@ -13,5 +13,7 @@ public interface IUsuariosJpaRepositorio extends JpaRepository<UsuariosJpa, Inte
 
 	Optional<UsuariosJpa> findByCorreo(String correo);
 
+	Optional<UsuariosJpa> findByTokenAuth(String tokenAuth);
+
 	List<UsuariosJpa> findByRol(String rol);
 }

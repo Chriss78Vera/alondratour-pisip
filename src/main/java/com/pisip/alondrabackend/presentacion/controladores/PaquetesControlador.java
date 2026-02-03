@@ -93,8 +93,22 @@ public class PaquetesControlador {
 
 	@GetMapping("/buscarPorPaisYCiudad")
 	@ResponseStatus(HttpStatus.OK)
-	public List<PaquetesResponseDto> paquetesPorPaisYCiudad(@RequestParam String pais, @RequestParam String ciudad) {
-		return paquetesUseCase.paquetesPorPaisYCiudad(pais, ciudad).stream().map(paquetesMapperDto::toResponse).toList();
+	public List<PaqueteCompletoResponseDto> paquetesPorPaisYCiudad(@RequestParam String pais, @RequestParam String ciudad) {
+		return paquetesUseCase.paquetesPorPaisYCiudad(pais, ciudad).stream().map(paquete -> {
+			var base = paquetesMapperDto.toResponse(paquete);
+			var detalle = paquetesDetallesUseCase.buscarPorId(paquete.getIdPaquetesDetalles());
+			var hoteles = hotelesUseCase.hotelesPorIdPaquetesDetalles(paquete.getIdPaquetesDetalles());
+			var hotelesDto = hoteles.stream().map(hotelesMapperDto::toResponse).toList();
+			return new PaqueteCompletoResponseDto(
+					base.getIdPaquete(),
+					base.getIdPaquetesDetalles(),
+					base.getNombre(),
+					base.getDescripcion(),
+					base.getPais(),
+					base.getCiudad(),
+					paquetesDetallesMapperDto.toResponse(detalle),
+					hotelesDto);
+		}).toList();
 	}
 
 	@GetMapping("/buscarPorIdPaquetesDetalles")

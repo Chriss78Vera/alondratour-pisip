@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,11 +35,15 @@ public class PasajerosControlador {
 	}
 	
 	@GetMapping
-	public List<PasajerosRequestDto> listar(){
-		return pasajerosUseCase.listar().stream().map(mapper :: toResponseDto).toList();
+	public List<PasajerosRequestDto> listar() {
+		return pasajerosUseCase.listar().stream().map(mapper::toResponseDto).toList();
 	}
-	
-	
+
+	@GetMapping("/buscarPorIdReserva")
+	public List<PasajerosRequestDto> listarPorIdReserva(@RequestParam int idReserva) {
+		return pasajerosUseCase.listarPorIdReserva(idReserva).stream().map(mapper::toResponseDto).toList();
+	}
+
 	@PostMapping
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public PasajerosRequestDto crear(@Valid @RequestBody PasajerosRequestDto request) {

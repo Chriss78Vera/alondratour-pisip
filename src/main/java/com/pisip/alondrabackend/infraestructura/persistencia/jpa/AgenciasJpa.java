@@ -32,6 +32,9 @@ public class AgenciasJpa implements Serializable {
 	@Column(nullable = false)
 	private String telefono;
 
+	@Column(nullable = true, length = 255)
+	private String email;
+
 	@OneToMany(mappedBy = "agencia", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<ReservasJpa> reservas;
 
