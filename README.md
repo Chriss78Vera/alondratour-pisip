@@ -1,9 +1,40 @@
-# alondratour-pisip
+# Alondra Backend
 
-El proyecto consiste en el desarrollo de una aplicación de software diseñada para la gestión integral de reservas bajo un modelo de administrador único. A diferencia de los sistemas de autoservicio, esta herramienta está enfocada en potenciar la productividad del operador encargado, proporcionándole una interfaz optimizada para ingresar, consultar y modificar reservas. El objetivo central es la reducción drástica del tiempo de registro, eliminando la fricción de los procesos manuales actuales y garantizando la organización de los datos.
+API REST para la gestión de reservas de paquetes turísticos (vuelos, hoteles, agencias). Backend del proyecto Alondra Tour — formularios y operaciones para reservas de paquetes de vuelos.
 
-## Colección Postman
+---
 
-Para probar la API puedes usar la colección de Postman incluida en el repositorio:
+## 🛠️ Tecnologías Utilizadas
 
-- **Archivo:** [postman/Alondra-API.postman_collection.json](postman/Alondra-API.postman_collection.json)
+| Tecnología        | Uso                          |
+|-------------------|------------------------------|
+| **Java 17**       | Lenguaje                     |
+| **Spring Boot 4** | Web, JPA, configuración      |
+| **PostgreSQL**    | Base de datos                |
+| **JPA / Hibernate** | Persistencia              |
+| **MapStruct**     | Mapeo entidades ↔ DTOs       |
+| **Lombok**        | Reducción de boilerplate     |
+| **Jakarta Validation** | Validación de requests |
+| **Spring Security Crypto** | Contraseñas (BCrypt), tokens de sesión |
+
+---
+
+## ⚙️ Variables de Entorno
+
+Edita `src/main/resources/application.properties` según tu entorno:
+
+```properties
+spring.datasource.url=
+spring.datasource.username=
+spring.datasource.password=
+
+---
+
+## 👥 Autores
+
+* **Christopher Mateo Vera Alejandro**
+* **Jordan Paul Paillacho Guerrero**
+* **Cristhian Andres Tenorio Morales**
+* **Lenin Javier Simaliza Guanotuña**
+
+---
