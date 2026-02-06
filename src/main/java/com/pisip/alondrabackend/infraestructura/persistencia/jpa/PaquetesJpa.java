@@ -44,6 +44,9 @@ public class PaquetesJpa implements Serializable {
 	@Column(nullable = false)
 	private String ciudad;
 
+	@Column(nullable = false)
+	private boolean estado;
+
 	@OneToMany(mappedBy = "paquete", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<ReservasJpa> reservas;
 

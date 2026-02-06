@@ -34,4 +34,7 @@ public class HotelesJpa implements Serializable {
 
 	@Column(nullable = false)
 	private float precio;
+
+	@Column(nullable = false)
+	private boolean estado;
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pisip.alondrabackend.dominio.entidades.Vuelos;
 import com.pisip.alondrabackend.aplicacion.casosuso.entradas.IVuelosUseCase;
 import com.pisip.alondrabackend.presentacion.dto.request.VuelosRequestDto;
 import com.pisip.alondrabackend.presentacion.dto.response.VuelosResponseDto;
@@ -44,7 +45,25 @@ public class VuelosControlador {
 	public VuelosResponseDto crear(@Valid @RequestBody VuelosRequestDto vuelos) {
 		return vuelosMapperDto.toResponse(vuelosUseCase.guardar(vuelosMapperDto.toDomain(vuelos)));
 	}
-	
+
+	@PostMapping("/editarExtras")
+	@ResponseStatus(HttpStatus.OK)
+	public VuelosResponseDto editarExtras(@Valid @RequestBody VuelosRequestDto dto) {
+		Vuelos actual = vuelosUseCase.buscarPorId(dto.getIdVuelo());
+		LocalDate fechaExtraSalida = dto.getFechaExtraSalida() != null ? dto.getFechaExtraSalida() : actual.getFechaExtraSalida();
+		LocalDate fechaExtraLlegada = dto.getFechaExtraLlegada() != null ? dto.getFechaExtraLlegada() : actual.getFechaExtraLlegada();
+		Vuelos actualizado = new Vuelos(
+				actual.getIdVuelo(),
+				actual.getAerolinea(),
+				actual.getOrigen(),
+				actual.getDestino(),
+				actual.getFechaSalida(),
+				actual.getFechaLlegada(),
+				fechaExtraSalida,
+				fechaExtraLlegada);
+		return vuelosMapperDto.toResponse(vuelosUseCase.guardar(actualizado));
+	}
+
 	@GetMapping("/buscarPorId")
 	@ResponseStatus(HttpStatus.OK)
 	public VuelosResponseDto buscarPorId(@RequestParam int id) {

@@ -16,6 +16,7 @@ public class PaqueteCompletoResponseDto {
 	private String descripcion;
 	private String pais;
 	private String ciudad;
+	private boolean estado;
 	private PaquetesDetallesResponseDto paquetesDetalles;
 	private List<HotelesResponseDto> hoteles;
 }

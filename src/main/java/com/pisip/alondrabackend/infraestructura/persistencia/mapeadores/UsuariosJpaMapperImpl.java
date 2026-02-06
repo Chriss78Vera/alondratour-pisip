@@ -21,7 +21,8 @@ public class UsuariosJpaMapperImpl implements IUsuariosJpaMapper {
 				entity.getRol(),
 				entity.getPasswordHash(),
 				entity.getTokenAuth(),
-				entity.getFechaAuthExp());
+				entity.getFechaAuthExp(),
+				entity.isEstado());
 	}
 
 	@Override
@@ -38,6 +39,7 @@ public class UsuariosJpaMapperImpl implements IUsuariosJpaMapper {
 		jpa.setPasswordHash(usuarios.getPasswordHash());
 		jpa.setTokenAuth(usuarios.getTokenAuth());
 		jpa.setFechaAuthExp(usuarios.getFechaAuthExp());
+		jpa.setEstado(usuarios.isEstado());
 		return jpa;
 	}
 }

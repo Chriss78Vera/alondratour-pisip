@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pisip.alondrabackend.aplicacion.casosuso.entradas.IHotelesUseCase;
+import com.pisip.alondrabackend.dominio.entidades.Hoteles;
 import com.pisip.alondrabackend.presentacion.dto.request.HotelesRequestDto;
 import com.pisip.alondrabackend.presentacion.dto.response.HotelesResponseDto;
 import com.pisip.alondrabackend.presentacion.mapeadores.IHotelesDtoMapper;
@@ -40,6 +41,12 @@ public class HotelesControlador {
 		return hotelesMapperDto.toResponse(hotelesUseCase.guardar(hotelesMapperDto.toDomain(hoteles)));
 	}
 
+	@PostMapping("/editar")
+	@ResponseStatus(HttpStatus.OK)
+	public HotelesResponseDto editar(@Valid @RequestBody HotelesRequestDto dto) {
+		return hotelesMapperDto.toResponse(hotelesUseCase.guardar(hotelesMapperDto.toDomain(dto)));
+	}
+
 	@GetMapping("/buscarPorId")
 	@ResponseStatus(HttpStatus.OK)
 	public HotelesResponseDto buscarPorId(@RequestParam int id) {
@@ -49,12 +56,16 @@ public class HotelesControlador {
 	@GetMapping("/buscarPorNombre")
 	@ResponseStatus(HttpStatus.OK)
 	public List<HotelesResponseDto> hotelesPorNombre(@RequestParam String nombre) {
-		return hotelesUseCase.hotelesPorNombre(nombre).stream().map(hotelesMapperDto::toResponse).toList();
+		return hotelesUseCase.hotelesPorNombre(nombre).stream()
+				.filter(Hoteles::isEstado)
+				.map(hotelesMapperDto::toResponse).toList();
 	}
 
 	@GetMapping("/buscarPorIdPaquetesDetalles")
 	@ResponseStatus(HttpStatus.OK)
 	public List<HotelesResponseDto> hotelesPorIdPaquetesDetalles(@RequestParam int idPaquetesDetalles) {
-		return hotelesUseCase.hotelesPorIdPaquetesDetalles(idPaquetesDetalles).stream().map(hotelesMapperDto::toResponse).toList();
+		return hotelesUseCase.hotelesPorIdPaquetesDetalles(idPaquetesDetalles).stream()
+				.filter(Hoteles::isEstado)
+				.map(hotelesMapperDto::toResponse).toList();
 	}
 }

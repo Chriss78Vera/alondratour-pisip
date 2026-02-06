@@ -15,9 +15,10 @@ public class Usuarios implements Serializable {
 	private final String passwordHash;
 	private final String tokenAuth;
 	private final LocalDateTime fechaAuthExp;
+	private final boolean estado;
 
 	public Usuarios(int idUsuario, String nombre, String cedula, String correo, String rol, String passwordHash,
-			String tokenAuth, LocalDateTime fechaAuthExp) {
+			String tokenAuth, LocalDateTime fechaAuthExp, boolean estado) {
 		this.idUsuario = idUsuario;
 		this.nombre = nombre;
 		this.cedula = cedula;
@@ -26,10 +27,11 @@ public class Usuarios implements Serializable {
 		this.passwordHash = passwordHash;
 		this.tokenAuth = tokenAuth;
 		this.fechaAuthExp = fechaAuthExp;
+		this.estado = estado;
 	}
 
 	public Usuarios(int idUsuario, String nombre, String cedula, String correo, String rol, String passwordHash) {
-		this(idUsuario, nombre, cedula, correo, rol, passwordHash, null, null);
+		this(idUsuario, nombre, cedula, correo, rol, passwordHash, null, null, true);
 	}
 
 	public int getIdUsuario() {
@@ -62,6 +64,10 @@ public class Usuarios implements Serializable {
 
 	public LocalDateTime getFechaAuthExp() {
 		return fechaAuthExp;
+	}
+
+	public boolean isEstado() {
+		return estado;
 	}
 
 	@Override
