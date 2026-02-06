@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pisip.alondrabackend.dominio.entidades.Hoteles;
 import com.pisip.alondrabackend.aplicacion.casosuso.entradas.IHotelesUseCase;
 import com.pisip.alondrabackend.aplicacion.casosuso.entradas.IPaquetesDetallesUseCase;
 import com.pisip.alondrabackend.aplicacion.casosuso.entradas.IPaquetesUseCase;
@@ -62,6 +63,7 @@ public class PaquetesControlador {
 					base.getDescripcion(),
 					base.getPais(),
 					base.getCiudad(),
+					base.isEstado(),
 					paquetesDetallesMapperDto.toResponse(detalle),
 					hotelesDto);
 		}).toList();
@@ -71,6 +73,12 @@ public class PaquetesControlador {
 	@ResponseStatus(HttpStatus.CREATED)
 	public PaquetesResponseDto crear(@Valid @RequestBody PaquetesRequestDto paquetes) {
 		return paquetesMapperDto.toResponse(paquetesUseCase.guardar(paquetesMapperDto.toDomain(paquetes)));
+	}
+
+	@PostMapping("/editar")
+	@ResponseStatus(HttpStatus.OK)
+	public PaquetesResponseDto editar(@Valid @RequestBody PaquetesRequestDto dto) {
+		return paquetesMapperDto.toResponse(paquetesUseCase.guardar(paquetesMapperDto.toDomain(dto)));
 	}
 
 	@GetMapping("/buscarPorId")
@@ -106,6 +114,7 @@ public class PaquetesControlador {
 					base.getDescripcion(),
 					base.getPais(),
 					base.getCiudad(),
+					base.isEstado(),
 					paquetesDetallesMapperDto.toResponse(detalle),
 					hotelesDto);
 		}).toList();
@@ -130,7 +139,8 @@ public class PaquetesControlador {
 	public PaqueteDetallesConHotelesResponseDto detallesConHotelesPorIdPaquete(@RequestParam int idPaquete) {
 		var paquete = paquetesUseCase.buscarPorId(idPaquete);
 		int idPaquetesDetalles = paquete.getIdPaquetesDetalles();
-		var hoteles = hotelesUseCase.hotelesPorIdPaquetesDetalles(idPaquetesDetalles);
+		var hoteles = hotelesUseCase.hotelesPorIdPaquetesDetalles(idPaquetesDetalles).stream()
+				.filter(Hoteles::isEstado).toList();
 		var hotelesDto = hoteles.stream().map(hotelesMapperDto::toResponse).toList();
 		return new PaqueteDetallesConHotelesResponseDto(idPaquetesDetalles, hotelesDto);
 	}
@@ -146,7 +156,8 @@ public class PaquetesControlador {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND,
 					"El detalle " + idPaquetesDetalles + " no pertenece al paquete " + idPaquete);
 		}
-		var hoteles = hotelesUseCase.hotelesPorIdPaquetesDetalles(idPaquetesDetalles);
+		var hoteles = hotelesUseCase.hotelesPorIdPaquetesDetalles(idPaquetesDetalles).stream()
+				.filter(Hoteles::isEstado).toList();
 		var hotelesDto = hoteles.stream().map(hotelesMapperDto::toResponse).toList();
 		return new PaqueteDetallesConHotelesResponseDto(idPaquetesDetalles, hotelesDto);
 	}

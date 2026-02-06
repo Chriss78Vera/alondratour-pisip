@@ -21,10 +21,11 @@ public class UsuariosRequestDto {
 	@NotBlank
 	private String rol;
 
-	@NotBlank(message = "La contraseña es obligatoria para crear/actualizar usuario")
+	/** Obligatoria al crear; opcional al actualizar (si viene vacía se mantiene la actual). */
 	private String password;
 	
-	private  String tokenAuth;
-	
-	private  LocalDateTime fechaAuthExp;
+	private String tokenAuth;
+	private LocalDateTime fechaAuthExp;
+	/** Por defecto true; se puede modificar al actualizar usuario. */
+	private boolean estado = true;
 }

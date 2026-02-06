@@ -60,4 +60,25 @@ public class ReservasControlador {
 				paquetesUseCase.buscarPorId(reserva.getIdPaquete()),
 				vuelosUseCase.buscarPorId(reserva.getIdVuelo()));
 	}
+
+	@PostMapping("/desactivar")
+	@ResponseStatus(HttpStatus.OK)
+	public ReservasResponseDto desactivar(@Valid @RequestBody ReservasRequestDto dto) {
+		Reservas actual = reservasUseCase.obtenerPorId(dto.getIdReserva());
+		Reservas actualizado = new Reservas(
+				actual.getIdReserva(),
+				actual.getIdUsuario(),
+				actual.getIdVuelo(),
+				actual.getIdPaquete(),
+				actual.getIdAgencia(),
+				actual.getFechaReserva(),
+				actual.getCostoTotal(),
+				false);
+		Reservas guardado = reservasUseCase.crear(actualizado);
+		return mapper.toResponseDto(
+				guardado,
+				agenciasUseCase.buscarPorId(guardado.getIdAgencia()),
+				paquetesUseCase.buscarPorId(guardado.getIdPaquete()),
+				vuelosUseCase.buscarPorId(guardado.getIdVuelo()));
+	}
 }

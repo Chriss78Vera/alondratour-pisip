@@ -92,10 +92,23 @@
 						"header": [{ "key": "Content-Type", "value": "application/json" }],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"idUsuario\": 0,\n  \"nombre\": \"Juan Pérez\",\n  \"cedula\": \"1234567890\",\n  \"correo\": \"juan@example.com\",\n  \"rol\": \"CLIENTE\",\n  \"password\": \"miPassword123\"\n}"
+							"raw": "{\n  \"idUsuario\": 0,\n  \"nombre\": \"Juan Pérez\",\n  \"cedula\": \"1234567890\",\n  \"correo\": \"juan@example.com\",\n  \"rol\": \"CLIENTE\",\n  \"password\": \"miPassword123\",\n  \"estado\": true\n}"
 						},
 						"url": "{{baseUrl}}/api/usuarios",
-						"description": "Crea un nuevo usuario. La contraseña se guarda encriptada (BCrypt) en BD. Para login usar cédula como usuario."
+						"description": "Crea un nuevo usuario. La contraseña se guarda encriptada (BCrypt) en BD. estado por defecto true."
+					}
+				},
+				{
+					"name": "Actualizar Usuario",
+					"request": {
+						"method": "POST",
+						"header": [{ "key": "Content-Type", "value": "application/json" }],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idUsuario\": 1,\n  \"nombre\": \"Juan Pérez Actualizado\",\n  \"cedula\": \"1234567890\",\n  \"correo\": \"juan.nuevo@example.com\",\n  \"rol\": \"CLIENTE\",\n  \"password\": \"nuevaPassword456\",\n  \"estado\": true\n}"
+						},
+						"url": "{{baseUrl}}/api/usuarios/actualizar",
+						"description": "Actualiza datos del usuario y/o contraseña. Body: UsuariosRequestDto. Si password viene vacío se mantiene la actual. estado modificable (por defecto true)."
 					}
 				},
 				{ "name": "Listar todos", "request": { "method": "GET", "url": "{{baseUrl}}/api/usuarios" } },
@@ -115,7 +128,7 @@
 						"header": [{ "key": "Content-Type", "value": "application/json" }],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"idHotel\": 0,\n  \"idPaquetesDetalles\": 1,\n  \"nombre\": \"Hotel Playa Dorada\",\n  \"precio\": 150000\n}"
+							"raw": "{\n  \"idHotel\": 0,\n  \"idPaquetesDetalles\": 1,\n  \"nombre\": \"Hotel Playa Dorada\",\n  \"precio\": 150000,\n  \"estado\": true\n}"
 						},
 						"url": "{{baseUrl}}/api/hoteles",
 						"description": "Crea un nuevo hotel (sin fechas; las fechas van en HotelesReservas por reserva)."
@@ -124,7 +137,20 @@
 				{ "name": "Listar todos", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles" } },
 				{ "name": "Buscar por Id", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles/buscarPorId?id=1" } },
 				{ "name": "Buscar por Nombre", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles/buscarPorNombre?nombre=Hotel Playa" } },
-				{ "name": "Buscar por Id Paquetes Detalles", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles/buscarPorIdPaquetesDetalles?idPaquetesDetalles=1" } }
+				{ "name": "Buscar por Id Paquetes Detalles", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles/buscarPorIdPaquetesDetalles?idPaquetesDetalles=1" } },
+				{
+					"name": "Editar Hotel",
+					"request": {
+						"method": "POST",
+						"header": [{ "key": "Content-Type", "value": "application/json" }],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idHotel\": 1,\n  \"idPaquetesDetalles\": 1,\n  \"nombre\": \"Hotel Playa Dorada Actualizado\",\n  \"precio\": 180000,\n  \"estado\": true\n}"
+						},
+						"url": "{{baseUrl}}/api/hoteles/editar",
+						"description": "Actualiza hotel por id. Mismo body que crear: idHotel (el que se edita), idPaquetesDetalles, nombre, precio, estado."
+					}
+				}
 			]
 		},
 		{
@@ -141,6 +167,19 @@
 						},
 						"url": "{{baseUrl}}/api/hoteles-reservas",
 						"description": "Vincula un hotel a una reserva con fechas de check-in/checkout. idReserva e idHotel deben existir."
+					}
+				},
+				{
+					"name": "Editar fechas extra hotel reserva",
+					"request": {
+						"method": "POST",
+						"header": [{ "key": "Content-Type", "value": "application/json" }],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idHotelReserva\": 1,\n  \"idReserva\": 1,\n  \"idHotel\": 1,\n  \"fechaCheckin\": \"2025-02-01\",\n  \"fechaCheckout\": \"2025-02-05\",\n  \"fechaExtraCheckin\": \"2025-02-06\",\n  \"fechaExtraCheckout\": \"2025-02-07\"\n}"
+						},
+						"url": "{{baseUrl}}/api/hoteles-reservas/editarExtras",
+						"description": "Actualiza solo fechaExtraCheckin y fechaExtraCheckout. Body: HotelesReservasRequestDto (se usan idHotelReserva y las dos fechas extra)."
 					}
 				},
 				{ "name": "Listar todos", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles-reservas" } },
@@ -163,6 +202,19 @@
 						},
 						"url": "{{baseUrl}}/api/vuelos",
 						"description": "Crea un nuevo vuelo."
+					}
+				},
+				{
+					"name": "Editar fechas extra vuelo",
+					"request": {
+						"method": "POST",
+						"header": [{ "key": "Content-Type", "value": "application/json" }],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idVuelo\": 1,\n  \"aerolinea\": \"Avianca\",\n  \"origen\": \"BOG\",\n  \"destino\": \"CTG\",\n  \"fechaSalida\": \"2025-02-01\",\n  \"fechaLlegada\": \"2025-02-01\",\n  \"fechaExtraSalida\": \"2025-02-02\",\n  \"fechaExtraLlegada\": \"2025-02-03\"\n}"
+						},
+						"url": "{{baseUrl}}/api/vuelos/editarExtras",
+						"description": "Actualiza solo fechaExtraSalida y fechaExtraLlegada. Body: VuelosRequestDto (se usan idVuelo y las dos fechas extra)."
 					}
 				},
 				{ "name": "Listar todos", "request": { "method": "GET", "url": "{{baseUrl}}/api/vuelos" } },
@@ -210,13 +262,26 @@
 						"header": [{ "key": "Content-Type", "value": "application/json" }],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"idPaquete\": 0,\n  \"idPaquetesDetalles\": 1,\n  \"nombre\": \"Paquete Caribe\",\n  \"descripcion\": \"Viaje todo incluido a Cartagena con hotel y vuelos\",\n  \"pais\": \"Colombia\",\n  \"ciudad\": \"Cartagena\"\n}"
+							"raw": "{\n  \"idPaquete\": 0,\n  \"idPaquetesDetalles\": 1,\n  \"nombre\": \"Paquete Caribe\",\n  \"descripcion\": \"Viaje todo incluido a Cartagena con hotel y vuelos\",\n  \"pais\": \"Colombia\",\n  \"ciudad\": \"Cartagena\",\n  \"estado\": true\n}"
 						},
 						"url": "{{baseUrl}}/api/paquetes",
 						"description": "Crea un paquete. idPaquetesDetalles debe existir (crear Paquetes Detalles antes)."
 					}
 				},
 				{ "name": "Listar todos", "request": { "method": "GET", "url": "{{baseUrl}}/api/paquetes" } },
+				{
+					"name": "Editar Paquete",
+					"request": {
+						"method": "POST",
+						"header": [{ "key": "Content-Type", "value": "application/json" }],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idPaquete\": 1,\n  \"idPaquetesDetalles\": 1,\n  \"nombre\": \"Paquete Caribe Actualizado\",\n  \"descripcion\": \"Nueva descripción del paquete\",\n  \"pais\": \"Colombia\",\n  \"ciudad\": \"Cartagena\",\n  \"estado\": true\n}"
+						},
+						"url": "{{baseUrl}}/api/paquetes/editar",
+						"description": "Actualiza paquete por id. Mismo body que crear: idPaquete (el que se edita), idPaquetesDetalles, nombre, descripcion, pais, ciudad, estado."
+					}
+				},
 				{ "name": "Buscar por Id", "request": { "method": "GET", "url": "{{baseUrl}}/api/paquetes/buscarPorId?id=1" } },
 				{ "name": "Buscar por Pais", "request": { "method": "GET", "url": "{{baseUrl}}/api/paquetes/buscarPorPais?pais=Colombia" } },
 				{ "name": "Buscar por Ciudad", "request": { "method": "GET", "url": "{{baseUrl}}/api/paquetes/buscarPorCiudad?ciudad=Cartagena" } },
@@ -243,7 +308,20 @@
 						"description": "Crea una reserva. Requiere ids existentes: usuario, vuelo, paquete, agencia."
 					}
 				},
-				{ "name": "Listar todas", "request": { "method": "GET", "url": "{{baseUrl}}/api/reservas" } }
+				{ "name": "Listar todas", "request": { "method": "GET", "url": "{{baseUrl}}/api/reservas" } },
+				{
+					"name": "Desactivar Reserva (estado a false)",
+					"request": {
+						"method": "POST",
+						"header": [{ "key": "Content-Type", "value": "application/json" }],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idReserva\": 1,\n  \"idUsuario\": 1,\n  \"idVuelo\": 1,\n  \"idPaquete\": 1,\n  \"idAgencia\": 1,\n  \"fechaReserva\": \"2025-01-27\",\n  \"costoTotal\": 2500000,\n  \"estado\": false\n}"
+						},
+						"url": "{{baseUrl}}/api/reservas/desactivar",
+						"description": "Pone el estado de la reserva en false. Body: ReservasRequestDto (idReserva a desactivar; estado false; resto pueden ser los actuales)."
+					}
+				}
 			]
 		},
 		{

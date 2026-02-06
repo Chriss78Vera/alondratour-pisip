@@ -48,6 +48,9 @@ public class UsuariosJpa implements Serializable {
 	@Column(name = "fecha_auth_exp", nullable = true)
 	private LocalDateTime fechaAuthExp;
 
+	@Column(nullable = false)
+	private boolean estado = true;
+
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<ReservasJpa> reservas;
 

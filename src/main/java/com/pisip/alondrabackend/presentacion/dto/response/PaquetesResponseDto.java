@@ -10,4 +10,5 @@ public class PaquetesResponseDto {
 	private String descripcion;
 	private String pais;
 	private String ciudad;
+	private boolean estado;
 }

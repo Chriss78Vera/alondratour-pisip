@@ -21,4 +21,6 @@ public class PaquetesRequestDto {
 
 	@NotBlank
 	private String ciudad;
+
+	private boolean estado;
 }

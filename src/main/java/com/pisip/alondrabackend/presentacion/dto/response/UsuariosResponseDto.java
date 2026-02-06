@@ -9,4 +9,5 @@ public class UsuariosResponseDto {
 	private String cedula;
 	private String correo;
 	private String rol;
+	private boolean estado;
 }

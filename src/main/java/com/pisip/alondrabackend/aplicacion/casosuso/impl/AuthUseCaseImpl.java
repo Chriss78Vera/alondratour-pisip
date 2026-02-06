@@ -57,7 +57,8 @@ public class AuthUseCaseImpl implements IAuthUseCase {
 				usuario.getRol(),
 				usuario.getPasswordHash(),
 				tokenAuth,
-				fechaAuthExp);
+				fechaAuthExp,
+				usuario.isEstado());
 		usuariosRepositorio.guardar(actualizado);
 		return LoginResponseDto.ok(usuario.getIdUsuario(), tokenAuth);
 	}
@@ -102,7 +103,8 @@ public class AuthUseCaseImpl implements IAuthUseCase {
 				usuario.getRol(),
 				usuario.getPasswordHash(),
 				null,
-				null);
+				null,
+				usuario.isEstado());
 		usuariosRepositorio.guardar(actualizado);
 		return LoginResponseDto.logoutOk();
 	}

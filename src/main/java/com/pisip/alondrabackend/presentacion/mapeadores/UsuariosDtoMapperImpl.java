@@ -27,7 +27,8 @@ public class UsuariosDtoMapperImpl implements IUsuariosDtoMapper {
 				dto.getRol(),
 				null,
 				dto.getTokenAuth(),
-				dto.getFechaAuthExp());
+				dto.getFechaAuthExp(),
+				dto.isEstado());
 	}
 
 	@Override
@@ -41,6 +42,7 @@ public class UsuariosDtoMapperImpl implements IUsuariosDtoMapper {
 		dto.setCedula(usuarios.getCedula());
 		dto.setCorreo(usuarios.getCorreo());
 		dto.setRol(usuarios.getRol());
+		dto.setEstado(usuarios.isEstado());
 		return dto;
 	}
 }
