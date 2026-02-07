@@ -54,15 +54,13 @@ public class VuelosUseCaseImpl implements IVuelosUseCase {
 	}
 
 	@Override
-	public List<Vuelos> listarPorOrigen(String origen) {
-		// TODO Auto-generated method stub
-		return repositorio.listarPorOrigen(origen);
+	public List<Vuelos> listarPorIdPaisDestino(int idPais) {
+		return repositorio.listarPorIdPaisDestino(idPais);
 	}
 
 	@Override
-	public List<Vuelos> listarPorDestino(String destino) {
-		// TODO Auto-generated method stub
-		return repositorio.listarPorDestino(destino);
+	public List<Vuelos> listarPorIdCiudadDestino(int idCiudad) {
+		return repositorio.listarPorIdCiudadDestino(idCiudad);
 	}
 
 	@Override

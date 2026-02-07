@@ -2,6 +2,9 @@ package com.pisip.alondrabackend.aplicacion.casosuso.impl;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
+
 import com.pisip.alondrabackend.aplicacion.casosuso.entradas.IPaquetesUseCase;
 import com.pisip.alondrabackend.dominio.entidades.Paquetes;
 import com.pisip.alondrabackend.dominio.repositorios.IPaquetesRepositorio;
@@ -21,7 +24,11 @@ public class PaquetesUseCaseImpl implements IPaquetesUseCase {
 
 	@Override
 	public Paquetes buscarPorId(int id) {
-		return repositorio.buscarPorId(id).orElseThrow(() -> new RuntimeException("Paquete no encontrado"));
+		Paquetes p = repositorio.buscarPorId(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Paquete no encontrado"));
+		if (!p.isEstado()) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Paquete no encontrado");
+		}
+		return p;
 	}
 
 	@Override
@@ -35,23 +42,23 @@ public class PaquetesUseCaseImpl implements IPaquetesUseCase {
 	}
 
 	@Override
-	public List<Paquetes> paquetesPorPais(String pais) {
-		return repositorio.paquetesPorPais(pais);
+	public List<Paquetes> paquetesPorIdPais(int idPais) {
+		return repositorio.paquetesPorIdPais(idPais).stream().filter(Paquetes::isEstado).toList();
 	}
 
 	@Override
-	public List<Paquetes> paquetesPorCiudad(String ciudad) {
-		return repositorio.paquetesPorCiudad(ciudad);
+	public List<Paquetes> paquetesPorIdCiudad(int idCiudad) {
+		return repositorio.paquetesPorIdCiudad(idCiudad).stream().filter(Paquetes::isEstado).toList();
 	}
 
 	@Override
-	public List<Paquetes> paquetesPorPaisYCiudad(String pais, String ciudad) {
-		return repositorio.paquetesPorPaisYCiudad(pais, ciudad);
+	public List<Paquetes> paquetesPorIdPaisYIdCiudad(int idPais, int idCiudad) {
+		return repositorio.paquetesPorIdPaisYIdCiudad(idPais, idCiudad).stream().filter(Paquetes::isEstado).toList();
 	}
 
 	@Override
 	public List<Paquetes> paquetesPorIdPaquetesDetalles(int idPaquetesDetalles) {
-		return repositorio.paquetesPorIdPaquetesDetalles(idPaquetesDetalles);
+		return repositorio.paquetesPorIdPaquetesDetalles(idPaquetesDetalles).stream().filter(Paquetes::isEstado).toList();
 	}
 
 	@Override

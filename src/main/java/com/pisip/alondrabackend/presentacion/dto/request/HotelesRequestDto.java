@@ -13,4 +13,6 @@ public class HotelesRequestDto {
 	private String nombre;
 	@NotNull
 	private Float precio;
+
+	private boolean estado;
 }

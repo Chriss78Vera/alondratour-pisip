@@ -18,13 +18,14 @@ public class UsuariosRequestDto {
 	@NotBlank
 	private String correo;
 
-	@NotBlank
-	private String rol;
+	/** id_rol (FK a tb_rol). Obligatorio. */
+	private int idRol;
 
-	@NotBlank(message = "La contraseña es obligatoria para crear/actualizar usuario")
+	/** Obligatoria al crear; opcional al actualizar (si viene vacía se mantiene la actual). */
 	private String password;
 	
-	private  String tokenAuth;
-	
-	private  LocalDateTime fechaAuthExp;
+	private String tokenAuth;
+	private LocalDateTime fechaAuthExp;
+	/** Por defecto true; se puede modificar al actualizar usuario. */
+	private boolean estado = true;
 }

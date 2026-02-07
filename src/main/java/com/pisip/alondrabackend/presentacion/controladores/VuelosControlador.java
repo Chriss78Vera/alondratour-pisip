@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pisip.alondrabackend.dominio.entidades.Vuelos;
 import com.pisip.alondrabackend.aplicacion.casosuso.entradas.IVuelosUseCase;
 import com.pisip.alondrabackend.presentacion.dto.request.VuelosRequestDto;
 import com.pisip.alondrabackend.presentacion.dto.response.VuelosResponseDto;
@@ -44,7 +45,27 @@ public class VuelosControlador {
 	public VuelosResponseDto crear(@Valid @RequestBody VuelosRequestDto vuelos) {
 		return vuelosMapperDto.toResponse(vuelosUseCase.guardar(vuelosMapperDto.toDomain(vuelos)));
 	}
-	
+
+	@PostMapping("/editarExtras")
+	@ResponseStatus(HttpStatus.OK)
+	public VuelosResponseDto editarExtras(@Valid @RequestBody VuelosRequestDto dto) {
+		Vuelos actual = vuelosUseCase.buscarPorId(dto.getIdVuelo());
+		LocalDate fechaExtraSalida = dto.getFechaExtraSalida() != null ? dto.getFechaExtraSalida() : actual.getFechaExtraSalida();
+		LocalDate fechaExtraLlegada = dto.getFechaExtraLlegada() != null ? dto.getFechaExtraLlegada() : actual.getFechaExtraLlegada();
+		Vuelos actualizado = new Vuelos(
+				actual.getIdVuelo(),
+				actual.getAerolinea(),
+				actual.getIdPaisDestino(),
+				actual.getIdCiudadDestino(),
+				actual.getNombrePaisDestino(),
+				actual.getNombreCiudadDestino(),
+				actual.getFechaSalida(),
+				actual.getFechaLlegada(),
+				fechaExtraSalida,
+				fechaExtraLlegada);
+		return vuelosMapperDto.toResponse(vuelosUseCase.guardar(actualizado));
+	}
+
 	@GetMapping("/buscarPorId")
 	@ResponseStatus(HttpStatus.OK)
 	public VuelosResponseDto buscarPorId(@RequestParam int id) {
@@ -57,16 +78,16 @@ public class VuelosControlador {
 		return vuelosUseCase.listarPorAerolinea(aerolinea).stream().map(vuelosMapperDto::toResponse).toList();	
 	}
 	
-	@GetMapping("/buscarPorOrigen")
+	@GetMapping("/buscarPorPaisDestino")
 	@ResponseStatus(HttpStatus.OK)
-	public List<VuelosResponseDto> listarPorOrigen(@RequestParam String origen){
-		return vuelosUseCase.listarPorOrigen(origen).stream().map(vuelosMapperDto::toResponse).toList();	
+	public List<VuelosResponseDto> listarPorIdPaisDestino(@RequestParam int idPais) {
+		return vuelosUseCase.listarPorIdPaisDestino(idPais).stream().map(vuelosMapperDto::toResponse).toList();
 	}
-	
-	@GetMapping("/buscarPorDestino")
+
+	@GetMapping("/buscarPorCiudadDestino")
 	@ResponseStatus(HttpStatus.OK)
-	public List<VuelosResponseDto> listarPorDestino(@RequestParam String destino){
-		return vuelosUseCase.listarPorDestino(destino).stream().map(vuelosMapperDto::toResponse).toList();	
+	public List<VuelosResponseDto> listarPorIdCiudadDestino(@RequestParam int idCiudad) {
+		return vuelosUseCase.listarPorIdCiudadDestino(idCiudad).stream().map(vuelosMapperDto::toResponse).toList();
 	}
 	
     @GetMapping("/fecha-salida")

@@ -1,6 +1,10 @@
 package com.pisip.alondrabackend.presentacion.controladores;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,12 +16,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pisip.alondrabackend.dominio.entidades.Hoteles;
+import com.pisip.alondrabackend.dominio.entidades.Paquetes;
 import com.pisip.alondrabackend.aplicacion.casosuso.entradas.IHotelesUseCase;
 import com.pisip.alondrabackend.aplicacion.casosuso.entradas.IPaquetesDetallesUseCase;
 import com.pisip.alondrabackend.aplicacion.casosuso.entradas.IPaquetesUseCase;
 import com.pisip.alondrabackend.presentacion.dto.request.PaquetesRequestDto;
+import com.pisip.alondrabackend.presentacion.dto.response.CiudadResponseDto;
+import com.pisip.alondrabackend.presentacion.dto.response.PaisConCiudadesResponseDto;
 import com.pisip.alondrabackend.presentacion.dto.response.PaqueteCompletoResponseDto;
-import com.pisip.alondrabackend.presentacion.dto.response.PaisesYCiudadesDistintosResponseDto;
 import com.pisip.alondrabackend.presentacion.dto.response.PaqueteDetallesConHotelesResponseDto;
 import com.pisip.alondrabackend.presentacion.dto.response.PaquetesResponseDto;
 import com.pisip.alondrabackend.presentacion.mapeadores.IHotelesDtoMapper;
@@ -60,8 +67,9 @@ public class PaquetesControlador {
 					base.getIdPaquetesDetalles(),
 					base.getNombre(),
 					base.getDescripcion(),
-					base.getPais(),
-					base.getCiudad(),
+					base.getNombrePais(),
+					base.getNombreCiudad(),
+					base.isEstado(),
 					paquetesDetallesMapperDto.toResponse(detalle),
 					hotelesDto);
 		}).toList();
@@ -73,6 +81,12 @@ public class PaquetesControlador {
 		return paquetesMapperDto.toResponse(paquetesUseCase.guardar(paquetesMapperDto.toDomain(paquetes)));
 	}
 
+	@PostMapping("/editar")
+	@ResponseStatus(HttpStatus.OK)
+	public PaquetesResponseDto editar(@Valid @RequestBody PaquetesRequestDto dto) {
+		return paquetesMapperDto.toResponse(paquetesUseCase.guardar(paquetesMapperDto.toDomain(dto)));
+	}
+
 	@GetMapping("/buscarPorId")
 	@ResponseStatus(HttpStatus.OK)
 	public PaquetesResponseDto buscarPorId(@RequestParam int id) {
@@ -81,20 +95,20 @@ public class PaquetesControlador {
 
 	@GetMapping("/buscarPorPais")
 	@ResponseStatus(HttpStatus.OK)
-	public List<PaquetesResponseDto> paquetesPorPais(@RequestParam String pais) {
-		return paquetesUseCase.paquetesPorPais(pais).stream().map(paquetesMapperDto::toResponse).toList();
+	public List<PaquetesResponseDto> paquetesPorIdPais(@RequestParam int idPais) {
+		return paquetesUseCase.paquetesPorIdPais(idPais).stream().map(paquetesMapperDto::toResponse).toList();
 	}
 
 	@GetMapping("/buscarPorCiudad")
 	@ResponseStatus(HttpStatus.OK)
-	public List<PaquetesResponseDto> paquetesPorCiudad(@RequestParam String ciudad) {
-		return paquetesUseCase.paquetesPorCiudad(ciudad).stream().map(paquetesMapperDto::toResponse).toList();
+	public List<PaquetesResponseDto> paquetesPorIdCiudad(@RequestParam int idCiudad) {
+		return paquetesUseCase.paquetesPorIdCiudad(idCiudad).stream().map(paquetesMapperDto::toResponse).toList();
 	}
 
 	@GetMapping("/buscarPorPaisYCiudad")
 	@ResponseStatus(HttpStatus.OK)
-	public List<PaqueteCompletoResponseDto> paquetesPorPaisYCiudad(@RequestParam String pais, @RequestParam String ciudad) {
-		return paquetesUseCase.paquetesPorPaisYCiudad(pais, ciudad).stream().map(paquete -> {
+	public List<PaqueteCompletoResponseDto> paquetesPorIdPaisYIdCiudad(@RequestParam int idPais, @RequestParam int idCiudad) {
+		return paquetesUseCase.paquetesPorIdPaisYIdCiudad(idPais, idCiudad).stream().map(paquete -> {
 			var base = paquetesMapperDto.toResponse(paquete);
 			var detalle = paquetesDetallesUseCase.buscarPorId(paquete.getIdPaquetesDetalles());
 			var hoteles = hotelesUseCase.hotelesPorIdPaquetesDetalles(paquete.getIdPaquetesDetalles());
@@ -104,8 +118,9 @@ public class PaquetesControlador {
 					base.getIdPaquetesDetalles(),
 					base.getNombre(),
 					base.getDescripcion(),
-					base.getPais(),
-					base.getCiudad(),
+					base.getNombrePais(),
+					base.getNombreCiudad(),
+					base.isEstado(),
 					paquetesDetallesMapperDto.toResponse(detalle),
 					hotelesDto);
 		}).toList();
@@ -119,10 +134,24 @@ public class PaquetesControlador {
 
 	@GetMapping("/paisesYCiudadesDistintos")
 	@ResponseStatus(HttpStatus.OK)
-	public PaisesYCiudadesDistintosResponseDto paisesYCiudadesDistintos() {
-		var paises = paquetesUseCase.paisesDistintos();
-		var ciudades = paquetesUseCase.ciudadesDistintas();
-		return new PaisesYCiudadesDistintosResponseDto(paises, ciudades);
+	public List<PaisConCiudadesResponseDto> paisesYCiudadesDistintos() {
+		var paquetes = paquetesUseCase.listarTodo().stream().filter(Paquetes::isEstado).toList();
+		// Agrupar por idPais; para cada país recoger ciudades distintas (idCiudad, nombre) ordenadas por nombre
+		Map<Integer, List<Paquetes>> porPais = paquetes.stream()
+				.collect(Collectors.groupingBy(Paquetes::getIdPais, LinkedHashMap::new, Collectors.toList()));
+		return porPais.entrySet().stream()
+				.map(e -> {
+					int idPais = e.getKey();
+					String nombrePais = e.getValue().get(0).getNombrePais();
+					List<CiudadResponseDto> ciudades = e.getValue().stream()
+							.map(p -> new CiudadResponseDto(p.getIdCiudad(), p.getNombreCiudad()))
+							.collect(Collectors.toMap(CiudadResponseDto::getIdCiudad, c -> c, (a, b) -> a))
+							.values().stream()
+							.sorted((a, b) -> a.getNombre().compareToIgnoreCase(b.getNombre()))
+							.toList();
+					return new PaisConCiudadesResponseDto(idPais, nombrePais, ciudades);
+				})
+				.toList();
 	}
 
 	@GetMapping("/detallesConHoteles")
@@ -130,7 +159,8 @@ public class PaquetesControlador {
 	public PaqueteDetallesConHotelesResponseDto detallesConHotelesPorIdPaquete(@RequestParam int idPaquete) {
 		var paquete = paquetesUseCase.buscarPorId(idPaquete);
 		int idPaquetesDetalles = paquete.getIdPaquetesDetalles();
-		var hoteles = hotelesUseCase.hotelesPorIdPaquetesDetalles(idPaquetesDetalles);
+		var hoteles = hotelesUseCase.hotelesPorIdPaquetesDetalles(idPaquetesDetalles).stream()
+				.filter(Hoteles::isEstado).toList();
 		var hotelesDto = hoteles.stream().map(hotelesMapperDto::toResponse).toList();
 		return new PaqueteDetallesConHotelesResponseDto(idPaquetesDetalles, hotelesDto);
 	}
@@ -146,7 +176,8 @@ public class PaquetesControlador {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND,
 					"El detalle " + idPaquetesDetalles + " no pertenece al paquete " + idPaquete);
 		}
-		var hoteles = hotelesUseCase.hotelesPorIdPaquetesDetalles(idPaquetesDetalles);
+		var hoteles = hotelesUseCase.hotelesPorIdPaquetesDetalles(idPaquetesDetalles).stream()
+				.filter(Hoteles::isEstado).toList();
 		var hotelesDto = hoteles.stream().map(hotelesMapperDto::toResponse).toList();
 		return new PaqueteDetallesConHotelesResponseDto(idPaquetesDetalles, hotelesDto);
 	}

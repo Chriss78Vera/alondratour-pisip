@@ -13,11 +13,11 @@ public interface IPaquetesUseCase {
 
 	void eliminar(int id);
 
-	List<Paquetes> paquetesPorPais(String pais);
+	List<Paquetes> paquetesPorIdPais(int idPais);
 
-	List<Paquetes> paquetesPorCiudad(String ciudad);
+	List<Paquetes> paquetesPorIdCiudad(int idCiudad);
 
-	List<Paquetes> paquetesPorPaisYCiudad(String pais, String ciudad);
+	List<Paquetes> paquetesPorIdPaisYIdCiudad(int idPais, int idCiudad);
 
 	List<Paquetes> paquetesPorIdPaquetesDetalles(int idPaquetesDetalles);
 

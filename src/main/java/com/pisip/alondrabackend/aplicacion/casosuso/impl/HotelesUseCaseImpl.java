@@ -2,6 +2,9 @@ package com.pisip.alondrabackend.aplicacion.casosuso.impl;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
+
 import com.pisip.alondrabackend.aplicacion.casosuso.entradas.IHotelesUseCase;
 import com.pisip.alondrabackend.dominio.entidades.Hoteles;
 import com.pisip.alondrabackend.dominio.repositorios.IHotelesRepositorio;
@@ -21,7 +24,11 @@ public class HotelesUseCaseImpl implements IHotelesUseCase {
 
 	@Override
 	public Hoteles buscarPorId(int id) {
-		return repositorio.buscarPorId(id).orElseThrow(() -> new RuntimeException("Hotel no encontrado"));
+		Hoteles h = repositorio.buscarPorId(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Hotel no encontrado"));
+		if (!h.isEstado()) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Hotel no encontrado");
+		}
+		return h;
 	}
 
 	@Override

@@ -13,16 +13,16 @@
 			"name": "Auth",
 			"item": [
 				{
-					"name": "Login (cedula + password)",
+					"name": "Login (correo + password)",
 					"request": {
 						"method": "POST",
 						"header": [{ "key": "Content-Type", "value": "application/json" }],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"cedula\": \"1234567890\",\n  \"password\": \"miPassword123\"\n}"
+							"raw": "{\n  \"correo\": \"juan@example.com\",\n  \"password\": \"miPassword123\"\n}"
 						},
 						"url": "{{baseUrl}}/api/auth/login",
-						"description": "Login con cédula y contraseña. Actualiza el usuario con token_auth y fecha_auth_exp (ahora + 1h). Respuesta: success, message, token (el token_auth generado)."
+						"description": "Login con correo electrónico y contraseña. Actualiza el usuario con token_auth y fecha_auth_exp (ahora + 1h). Respuesta: success, message, token (el token_auth generado)."
 					}
 				},
 				{
@@ -83,6 +83,59 @@
 			]
 		},
 		{
+			"name": "Paises",
+			"item": [
+				{ "name": "Listar todos", "request": { "method": "GET", "url": "{{baseUrl}}/api/paises", "description": "Obtiene todos los países." } },
+				{
+					"name": "Crear País",
+					"request": {
+						"method": "POST",
+						"header": [{ "key": "Content-Type", "value": "application/json" }],
+						"body": { "mode": "raw", "raw": "{\n  \"idPais\": 0,\n  \"nombre\": \"Colombia\"\n}" },
+						"url": "{{baseUrl}}/api/paises",
+						"description": "Crea un nuevo país."
+					}
+				},
+				{ "name": "Buscar por Id", "request": { "method": "GET", "url": "{{baseUrl}}/api/paises/buscarPorId?id=1" } }
+			]
+		},
+		{
+			"name": "Ciudades",
+			"item": [
+				{ "name": "Listar todas", "request": { "method": "GET", "url": "{{baseUrl}}/api/ciudades" } },
+				{ "name": "Listar por id país", "request": { "method": "GET", "url": "{{baseUrl}}/api/ciudades/porPais?idPais=1", "description": "Obtiene ciudades por id del país." } },
+				{
+					"name": "Crear Ciudad",
+					"request": {
+						"method": "POST",
+						"header": [{ "key": "Content-Type", "value": "application/json" }],
+						"body": { "mode": "raw", "raw": "{\n  \"idCiudad\": 0,\n  \"nombre\": \"Bogotá\",\n  \"idPais\": 1\n}" },
+						"url": "{{baseUrl}}/api/ciudades",
+						"description": "Crea una ciudad. idPais debe existir."
+					}
+				},
+				{ "name": "Buscar por Id", "request": { "method": "GET", "url": "{{baseUrl}}/api/ciudades/buscarPorId?id=1" } }
+			]
+		},
+		{
+			"name": "Roles",
+			"item": [
+				{ "name": "Listar todos", "request": { "method": "GET", "url": "{{baseUrl}}/api/roles", "description": "Obtiene todos los roles (tb_rol)." } },
+				{
+					"name": "Crear Rol",
+					"request": {
+						"method": "POST",
+						"header": [{ "key": "Content-Type", "value": "application/json" }],
+						"body": { "mode": "raw", "raw": "{\n  \"idRol\": 0,\n  \"tipo\": \"Admin\"\n}" },
+						"url": "{{baseUrl}}/api/roles",
+						"description": "Crea un rol. Ej. Admin, CLIENTE. Usuarios usan idRol (ManyToOne)."
+					}
+				},
+				{ "name": "Buscar por Id", "request": { "method": "GET", "url": "{{baseUrl}}/api/roles/buscarPorId?id=1" } },
+				{ "name": "Buscar por Tipo", "request": { "method": "GET", "url": "{{baseUrl}}/api/roles/buscarPorTipo?tipo=Admin" } }
+			]
+		},
+		{
 			"name": "Usuarios",
 			"item": [
 				{
@@ -92,10 +145,23 @@
 						"header": [{ "key": "Content-Type", "value": "application/json" }],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"idUsuario\": 0,\n  \"nombre\": \"Juan Pérez\",\n  \"cedula\": \"1234567890\",\n  \"correo\": \"juan@example.com\",\n  \"rol\": \"CLIENTE\",\n  \"password\": \"miPassword123\"\n}"
+							"raw": "{\n  \"idUsuario\": 0,\n  \"nombre\": \"Juan Pérez\",\n  \"cedula\": \"1234567890\",\n  \"correo\": \"juan@example.com\",\n  \"idRol\": 1,\n  \"password\": \"miPassword123\",\n  \"estado\": true\n}"
 						},
 						"url": "{{baseUrl}}/api/usuarios",
-						"description": "Crea un nuevo usuario. La contraseña se guarda encriptada (BCrypt) en BD. Para login usar cédula como usuario."
+						"description": "Crea un nuevo usuario. La contraseña se guarda encriptada (BCrypt) en BD. estado por defecto true."
+					}
+				},
+				{
+					"name": "Actualizar Usuario",
+					"request": {
+						"method": "POST",
+						"header": [{ "key": "Content-Type", "value": "application/json" }],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idUsuario\": 1,\n  \"nombre\": \"Juan Pérez Actualizado\",\n  \"cedula\": \"1234567890\",\n  \"correo\": \"juan.nuevo@example.com\",\n  \"idRol\": 1,\n  \"password\": \"nuevaPassword456\",\n  \"estado\": true\n}"
+						},
+						"url": "{{baseUrl}}/api/usuarios/actualizar",
+						"description": "Actualiza datos del usuario y/o contraseña. Body: UsuariosRequestDto. Si password viene vacío se mantiene la actual. estado modificable (por defecto true)."
 					}
 				},
 				{ "name": "Listar todos", "request": { "method": "GET", "url": "{{baseUrl}}/api/usuarios" } },
@@ -115,7 +181,7 @@
 						"header": [{ "key": "Content-Type", "value": "application/json" }],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"idHotel\": 0,\n  \"idPaquetesDetalles\": 1,\n  \"nombre\": \"Hotel Playa Dorada\",\n  \"precio\": 150000\n}"
+							"raw": "{\n  \"idHotel\": 0,\n  \"idPaquetesDetalles\": 1,\n  \"nombre\": \"Hotel Playa Dorada\",\n  \"precio\": 150000,\n  \"estado\": true\n}"
 						},
 						"url": "{{baseUrl}}/api/hoteles",
 						"description": "Crea un nuevo hotel (sin fechas; las fechas van en HotelesReservas por reserva)."
@@ -124,7 +190,20 @@
 				{ "name": "Listar todos", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles" } },
 				{ "name": "Buscar por Id", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles/buscarPorId?id=1" } },
 				{ "name": "Buscar por Nombre", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles/buscarPorNombre?nombre=Hotel Playa" } },
-				{ "name": "Buscar por Id Paquetes Detalles", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles/buscarPorIdPaquetesDetalles?idPaquetesDetalles=1" } }
+				{ "name": "Buscar por Id Paquetes Detalles", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles/buscarPorIdPaquetesDetalles?idPaquetesDetalles=1" } },
+				{
+					"name": "Editar Hotel",
+					"request": {
+						"method": "POST",
+						"header": [{ "key": "Content-Type", "value": "application/json" }],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idHotel\": 1,\n  \"idPaquetesDetalles\": 1,\n  \"nombre\": \"Hotel Playa Dorada Actualizado\",\n  \"precio\": 180000,\n  \"estado\": true\n}"
+						},
+						"url": "{{baseUrl}}/api/hoteles/editar",
+						"description": "Actualiza hotel por id. Mismo body que crear: idHotel (el que se edita), idPaquetesDetalles, nombre, precio, estado."
+					}
+				}
 			]
 		},
 		{
@@ -143,6 +222,19 @@
 						"description": "Vincula un hotel a una reserva con fechas de check-in/checkout. idReserva e idHotel deben existir."
 					}
 				},
+				{
+					"name": "Editar fechas extra hotel reserva",
+					"request": {
+						"method": "POST",
+						"header": [{ "key": "Content-Type", "value": "application/json" }],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idHotelReserva\": 1,\n  \"idReserva\": 1,\n  \"idHotel\": 1,\n  \"fechaCheckin\": \"2025-02-01\",\n  \"fechaCheckout\": \"2025-02-05\",\n  \"fechaExtraCheckin\": \"2025-02-06\",\n  \"fechaExtraCheckout\": \"2025-02-07\"\n}"
+						},
+						"url": "{{baseUrl}}/api/hoteles-reservas/editarExtras",
+						"description": "Actualiza solo fechaExtraCheckin y fechaExtraCheckout. Body: HotelesReservasRequestDto (se usan idHotelReserva y las dos fechas extra)."
+					}
+				},
 				{ "name": "Listar todos", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles-reservas" } },
 				{ "name": "Buscar por Id", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles-reservas/buscarPorId?id=1" } },
 				{ "name": "Buscar por Id Reserva", "request": { "method": "GET", "url": "{{baseUrl}}/api/hoteles-reservas/buscarPorIdReserva?idReserva=1", "description": "Devuelve todos los hoteles-reserva de una reserva con todos los datos del hotel (idHotel, idPaquetesDetalles, nombre, precio)." } },
@@ -159,17 +251,30 @@
 						"header": [{ "key": "Content-Type", "value": "application/json" }],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"idVuelo\": 0,\n  \"aerolinea\": \"Avianca\",\n  \"origen\": \"BOG\",\n  \"destino\": \"CTG\",\n  \"fechaSalida\": \"2025-02-01\",\n  \"fechaLlegada\": \"2025-02-01\",\n  \"fechaExtraSalida\": null,\n  \"fechaExtraLlegada\": null\n}"
+							"raw": "{\n  \"idVuelo\": 0,\n  \"aerolinea\": \"Avianca\",\n  \"idPaisDestino\": 1,\n  \"idCiudadDestino\": 1,\n  \"fechaSalida\": \"2025-02-01\",\n  \"fechaLlegada\": \"2025-02-01\",\n  \"fechaExtraSalida\": null,\n  \"fechaExtraLlegada\": null\n}"
 						},
 						"url": "{{baseUrl}}/api/vuelos",
 						"description": "Crea un nuevo vuelo."
 					}
 				},
+				{
+					"name": "Editar fechas extra vuelo",
+					"request": {
+						"method": "POST",
+						"header": [{ "key": "Content-Type", "value": "application/json" }],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idVuelo\": 1,\n  \"aerolinea\": \"Avianca\",\n  \"idPaisDestino\": 1,\n  \"idCiudadDestino\": 1,\n  \"fechaSalida\": \"2025-02-01\",\n  \"fechaLlegada\": \"2025-02-01\",\n  \"fechaExtraSalida\": \"2025-02-02\",\n  \"fechaExtraLlegada\": \"2025-02-03\"\n}"
+						},
+						"url": "{{baseUrl}}/api/vuelos/editarExtras",
+						"description": "Actualiza solo fechaExtraSalida y fechaExtraLlegada. Body: VuelosRequestDto (se usan idVuelo y las dos fechas extra)."
+					}
+				},
 				{ "name": "Listar todos", "request": { "method": "GET", "url": "{{baseUrl}}/api/vuelos" } },
 				{ "name": "Buscar por Id", "request": { "method": "GET", "url": "{{baseUrl}}/api/vuelos/buscarPorId?id=1" } },
 				{ "name": "Buscar por Aerolinea", "request": { "method": "GET", "url": "{{baseUrl}}/api/vuelos/buscarPorAerolinea?aerolinea=Avianca" } },
-				{ "name": "Buscar por Origen", "request": { "method": "GET", "url": "{{baseUrl}}/api/vuelos/buscarPorOrigen?origen=BOG" } },
-				{ "name": "Buscar por Destino", "request": { "method": "GET", "url": "{{baseUrl}}/api/vuelos/buscarPorDestino?destino=CTG" } },
+				{ "name": "Buscar por País Destino", "request": { "method": "GET", "url": "{{baseUrl}}/api/vuelos/buscarPorPaisDestino?idPais=1" } },
+				{ "name": "Buscar por Ciudad Destino", "request": { "method": "GET", "url": "{{baseUrl}}/api/vuelos/buscarPorCiudadDestino?idCiudad=1" } },
 				{ "name": "Por fecha salida", "request": { "method": "GET", "url": "{{baseUrl}}/api/vuelos/fecha-salida?fecha=2025-02-01" } },
 				{ "name": "Por fecha llegada", "request": { "method": "GET", "url": "{{baseUrl}}/api/vuelos/fecha-llegada?fecha=2025-02-01" } },
 				{ "name": "Por rango fechas", "request": { "method": "GET", "url": "{{baseUrl}}/api/vuelos/rango-fechas?inicio=2025-02-01&fin=2025-02-28" } },
@@ -210,19 +315,32 @@
 						"header": [{ "key": "Content-Type", "value": "application/json" }],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"idPaquete\": 0,\n  \"idPaquetesDetalles\": 1,\n  \"nombre\": \"Paquete Caribe\",\n  \"descripcion\": \"Viaje todo incluido a Cartagena con hotel y vuelos\",\n  \"pais\": \"Colombia\",\n  \"ciudad\": \"Cartagena\"\n}"
+							"raw": "{\n  \"idPaquete\": 0,\n  \"idPaquetesDetalles\": 1,\n  \"nombre\": \"Paquete Caribe\",\n  \"descripcion\": \"Viaje todo incluido a Cartagena con hotel y vuelos\",\n  \"idPais\": 1,\n  \"idCiudad\": 1,\n  \"estado\": true\n}"
 						},
 						"url": "{{baseUrl}}/api/paquetes",
 						"description": "Crea un paquete. idPaquetesDetalles debe existir (crear Paquetes Detalles antes)."
 					}
 				},
 				{ "name": "Listar todos", "request": { "method": "GET", "url": "{{baseUrl}}/api/paquetes" } },
+				{
+					"name": "Editar Paquete",
+					"request": {
+						"method": "POST",
+						"header": [{ "key": "Content-Type", "value": "application/json" }],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idPaquete\": 1,\n  \"idPaquetesDetalles\": 1,\n  \"nombre\": \"Paquete Caribe Actualizado\",\n  \"descripcion\": \"Nueva descripción del paquete\",\n  \"idPais\": 1,\n  \"idCiudad\": 1,\n  \"estado\": true\n}"
+						},
+						"url": "{{baseUrl}}/api/paquetes/editar",
+						"description": "Actualiza paquete por id. Mismo body que crear: idPaquete, idPaquetesDetalles, nombre, descripcion, idPais, idCiudad, estado."
+					}
+				},
 				{ "name": "Buscar por Id", "request": { "method": "GET", "url": "{{baseUrl}}/api/paquetes/buscarPorId?id=1" } },
-				{ "name": "Buscar por Pais", "request": { "method": "GET", "url": "{{baseUrl}}/api/paquetes/buscarPorPais?pais=Colombia" } },
-				{ "name": "Buscar por Ciudad", "request": { "method": "GET", "url": "{{baseUrl}}/api/paquetes/buscarPorCiudad?ciudad=Cartagena" } },
-				{ "name": "Buscar por Pais y Ciudad", "request": { "method": "GET", "url": "{{baseUrl}}/api/paquetes/buscarPorPaisYCiudad?pais=Colombia&ciudad=Cartagena", "description": "Trae todos los paquetes que pertenecen a esa combinacion de pais y ciudad." } },
+				{ "name": "Buscar por Pais", "request": { "method": "GET", "url": "{{baseUrl}}/api/paquetes/buscarPorPais?idPais=1" } },
+				{ "name": "Buscar por Ciudad", "request": { "method": "GET", "url": "{{baseUrl}}/api/paquetes/buscarPorCiudad?idCiudad=1" } },
+				{ "name": "Buscar por Pais y Ciudad", "request": { "method": "GET", "url": "{{baseUrl}}/api/paquetes/buscarPorPaisYCiudad?idPais=1&idCiudad=1", "description": "Trae todos los paquetes que pertenecen a esa combinación de id país e id ciudad." } },
 				{ "name": "Buscar por Id Paquetes Detalles", "request": { "method": "GET", "url": "{{baseUrl}}/api/paquetes/buscarPorIdPaquetesDetalles?idPaquetesDetalles=1" } },
-				{ "name": "Paises y Ciudades Distintos", "request": { "method": "GET", "url": "{{baseUrl}}/api/paquetes/paisesYCiudadesDistintos", "description": "Devuelve listas sin repetir de paises y ciudades de todos los paquetes." } },
+				{ "name": "Paises y Ciudades Distintos", "request": { "method": "GET", "url": "{{baseUrl}}/api/paquetes/paisesYCiudadesDistintos", "description": "Devuelve lista de objetos { pais, ciudades[] } con cada país y sus ciudades asociadas en paquetes activos." } },
 				{ "name": "Detalles con Hoteles por Id Paquete", "request": { "method": "GET", "url": "{{baseUrl}}/api/paquetes/detallesConHoteles?idPaquete=1", "description": "Devuelve idPaquetesDetalles y la lista de hoteles del paquete." } },
 				{ "name": "Detalles con Hoteles por Id Paquete e Id Detalle", "request": { "method": "GET", "url": "{{baseUrl}}/api/paquetes/detallesConHotelesPorPaqueteYDetalle?idPaquete=1&idPaquetesDetalles=1", "description": "Recibe idPaquete e idPaquetesDetalles. Valida que ese detalle pertenezca al paquete y devuelve idPaquetesDetalles y sus hoteles." } }
 			]
@@ -243,7 +361,20 @@
 						"description": "Crea una reserva. Requiere ids existentes: usuario, vuelo, paquete, agencia."
 					}
 				},
-				{ "name": "Listar todas", "request": { "method": "GET", "url": "{{baseUrl}}/api/reservas" } }
+				{ "name": "Listar todas", "request": { "method": "GET", "url": "{{baseUrl}}/api/reservas" } },
+				{
+					"name": "Desactivar Reserva (estado a false)",
+					"request": {
+						"method": "POST",
+						"header": [{ "key": "Content-Type", "value": "application/json" }],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idReserva\": 1,\n  \"idUsuario\": 1,\n  \"idVuelo\": 1,\n  \"idPaquete\": 1,\n  \"idAgencia\": 1,\n  \"fechaReserva\": \"2025-01-27\",\n  \"costoTotal\": 2500000,\n  \"estado\": false\n}"
+						},
+						"url": "{{baseUrl}}/api/reservas/desactivar",
+						"description": "Pone el estado de la reserva en false. Body: ReservasRequestDto (idReserva a desactivar; estado false; resto pueden ser los actuales)."
+					}
+				}
 			]
 		},
 		{

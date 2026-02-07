@@ -1,5 +1,6 @@
 package com.pisip.alondrabackend.presentacion.controladores;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pisip.alondrabackend.dominio.entidades.HotelesReservas;
 import com.pisip.alondrabackend.aplicacion.casosuso.entradas.IHotelesReservasUseCase;
 import com.pisip.alondrabackend.aplicacion.casosuso.entradas.IHotelesUseCase;
 import com.pisip.alondrabackend.presentacion.dto.request.HotelesReservasRequestDto;
@@ -48,6 +50,23 @@ public class HotelesReservasControlador {
 	public HotelesReservasResponseDto crear(@Valid @RequestBody HotelesReservasRequestDto hotelesReservas) {
 		return hotelesReservasMapperDto.toResponse(
 				hotelesReservasUseCase.guardar(hotelesReservasMapperDto.toDomain(hotelesReservas)));
+	}
+
+	@PostMapping("/editarExtras")
+	@ResponseStatus(HttpStatus.OK)
+	public HotelesReservasResponseDto editarExtras(@Valid @RequestBody HotelesReservasRequestDto dto) {
+		HotelesReservas actual = hotelesReservasUseCase.buscarPorId(dto.getIdHotelReserva());
+		LocalDate fechaExtraCheckin = dto.getFechaExtraCheckin() != null ? dto.getFechaExtraCheckin() : actual.getFechaExtraCheckin();
+		LocalDate fechaExtraCheckout = dto.getFechaExtraCheckout() != null ? dto.getFechaExtraCheckout() : actual.getFechaExtraCheckout();
+		HotelesReservas actualizado = new HotelesReservas(
+				actual.getIdHotelReserva(),
+				actual.getIdReserva(),
+				actual.getIdHotel(),
+				actual.getFechaCheckin(),
+				actual.getFechaCheckout(),
+				fechaExtraCheckin,
+				fechaExtraCheckout);
+		return hotelesReservasMapperDto.toResponse(hotelesReservasUseCase.guardar(actualizado));
 	}
 
 	@GetMapping("/buscarPorId")

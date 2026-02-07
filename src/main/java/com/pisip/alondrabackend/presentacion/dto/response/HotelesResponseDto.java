@@ -8,4 +8,5 @@ public class HotelesResponseDto {
 	private int idPaquetesDetalles;
 	private String nombre;
 	private float precio;
+	private boolean estado;
 }

@@ -1,11 +1,40 @@
-# alondratour-pisip
+# Alondra Backend
 
-Proyecto de software para Alondra Tour, formularios para las gestiones de reservas de los paquetes de vuelos.
+API REST para la gestión de reservas de paquetes turísticos (vuelos, hoteles, agencias). Backend del proyecto Alondra Tour — formularios y operaciones para reservas de paquetes de vuelos.
 
-## Colección Postman
+---
 
-Para probar la API puedes usar la colección de Postman incluida en el repositorio:
+## 🛠️ Tecnologías Utilizadas
 
-- **Archivo:** [postman/Alondra-API.postman_collection.json](postman/Alondra-API.postman_collection.json)
+| Tecnología        | Uso                          |
+|-------------------|------------------------------|
+| **Java 17**       | Lenguaje                     |
+| **Spring Boot 4** | Web, JPA, configuración      |
+| **PostgreSQL**    | Base de datos                |
+| **JPA / Hibernate** | Persistencia              |
+| **MapStruct**     | Mapeo entidades ↔ DTOs       |
+| **Lombok**        | Reducción de boilerplate     |
+| **Jakarta Validation** | Validación de requests |
+| **Spring Security Crypto** | Contraseñas (BCrypt), tokens de sesión |
 
-**Cómo importarla:** En GitHub, abre el enlace anterior, pulsa en *Raw* y guarda el archivo, o descarga el repositorio y en Postman ve a *Import* > *File* y selecciona `postman/Alondra-API.postman_collection.json`. La variable `baseUrl` por defecto es `http://localhost:8080`.
+---
+
+## ⚙️ Variables de Entorno
+
+Edita `src/main/resources/application.properties` según tu entorno:
+
+```properties
+spring.datasource.url=
+spring.datasource.username=
+spring.datasource.password=
+
+---
+
+## 👥 Autores
+
+* **Christopher Mateo Vera Alejandro**
+* **Jordan Paul Paillacho Guerrero**
+* **Cristhian Andres Tenorio Morales**
+* **Lenin Javier Simaliza Guanotuña**
+
+---

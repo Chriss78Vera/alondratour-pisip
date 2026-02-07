@@ -3,34 +3,35 @@ package com.pisip.alondrabackend.dominio.entidades;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Vuelos implements Serializable{
-	
+public class Vuelos implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	private final int idVuelo;
 	private final String aerolinea;
-	private final String origen;
-	private final String destino;
+	private final int idPaisDestino;
+	private final int idCiudadDestino;
+	private final String nombrePaisDestino;
+	private final String nombreCiudadDestino;
 	private final LocalDate fechaSalida;
 	private final LocalDate fechaLlegada;
 	private final LocalDate fechaExtraSalida;
 	private final LocalDate fechaExtraLlegada;
-	
-	public Vuelos(int idVuelo, String aerolinea, String origen, String destino, LocalDate fechaSalida,
-			LocalDate fechaLlegada, LocalDate fechaExtraSalida, LocalDate fechaExtraLlegada) {
-		super();
+
+	public Vuelos(int idVuelo, String aerolinea, int idPaisDestino, int idCiudadDestino,
+			String nombrePaisDestino, String nombreCiudadDestino,
+			LocalDate fechaSalida, LocalDate fechaLlegada,
+			LocalDate fechaExtraSalida, LocalDate fechaExtraLlegada) {
 		this.idVuelo = idVuelo;
 		this.aerolinea = aerolinea;
-		this.origen = origen;
-		this.destino = destino;
+		this.idPaisDestino = idPaisDestino;
+		this.idCiudadDestino = idCiudadDestino;
+		this.nombrePaisDestino = nombrePaisDestino;
+		this.nombreCiudadDestino = nombreCiudadDestino;
 		this.fechaSalida = fechaSalida;
 		this.fechaLlegada = fechaLlegada;
 		this.fechaExtraSalida = fechaExtraSalida;
 		this.fechaExtraLlegada = fechaExtraLlegada;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
 	}
 
 	public int getIdVuelo() {
@@ -41,12 +42,20 @@ public class Vuelos implements Serializable{
 		return aerolinea;
 	}
 
-	public String getOrigen() {
-		return origen;
+	public int getIdPaisDestino() {
+		return idPaisDestino;
 	}
 
-	public String getDestino() {
-		return destino;
+	public int getIdCiudadDestino() {
+		return idCiudadDestino;
+	}
+
+	public String getNombrePaisDestino() {
+		return nombrePaisDestino;
+	}
+
+	public String getNombreCiudadDestino() {
+		return nombreCiudadDestino;
 	}
 
 	public LocalDate getFechaSalida() {
@@ -64,13 +73,4 @@ public class Vuelos implements Serializable{
 	public LocalDate getFechaExtraLlegada() {
 		return fechaExtraLlegada;
 	}
-
-	@Override
-	public String toString() {
-		return "Vuelos [idVuelo=" + idVuelo + ", aerolinea=" + aerolinea + ", origen=" + origen + ", destino=" + destino
-				+ ", fechaSalida=" + fechaSalida + ", fechaLlegada=" + fechaLlegada + ", fechaExtraSalida="
-				+ fechaExtraSalida + ", fechaExtraLlegada=" + fechaExtraLlegada + "]";
-	}
-	
-	
 }

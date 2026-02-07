@@ -10,13 +10,15 @@ public class Hoteles implements Serializable {
 	private final int idPaquetesDetalles;
 	private final String nombre;
 	private final float precio;
+	private final boolean estado;
 
-	public Hoteles(int idHotel, int idPaquetesDetalles, String nombre, float precio) {
+	public Hoteles(int idHotel, int idPaquetesDetalles, String nombre, float precio, boolean estado) {
 		super();
 		this.idHotel = idHotel;
 		this.idPaquetesDetalles = idPaquetesDetalles;
 		this.nombre = nombre;
 		this.precio = precio;
+		this.estado = estado;
 	}
 
 	public static long getSerialversionuid() {
@@ -39,8 +41,12 @@ public class Hoteles implements Serializable {
 		return precio;
 	}
 
+	public boolean isEstado() {
+		return estado;
+	}
+
 	@Override
 	public String toString() {
-		return "Hoteles [idHotel=" + idHotel + ", idPaquetesDetalles=" + idPaquetesDetalles + ", nombre=" + nombre + ", precio=" + precio + "]";
+		return "Hoteles [idHotel=" + idHotel + ", idPaquetesDetalles=" + idPaquetesDetalles + ", nombre=" + nombre + ", precio=" + precio + ", estado=" + estado + "]";
 	}
 }

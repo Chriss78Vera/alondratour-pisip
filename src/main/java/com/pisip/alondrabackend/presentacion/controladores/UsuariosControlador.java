@@ -44,9 +44,33 @@ public class UsuariosControlador {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public UsuariosResponseDto crear(@Valid @RequestBody UsuariosRequestDto dto) {
+		if (dto.getPassword() == null || dto.getPassword().isBlank()) {
+			throw new IllegalArgumentException("La contraseña es obligatoria para crear usuario");
+		}
 		String passwordHash = passwordEncoder.encode(dto.getPassword());
-		Usuarios usuario = new Usuarios(0, dto.getNombre(), dto.getCedula(), dto.getCorreo(), dto.getRol(), passwordHash, null, null);
+		Usuarios usuario = new Usuarios(0, dto.getNombre(), dto.getCedula(), dto.getCorreo(), dto.getIdRol(), null, passwordHash, null, null, dto.isEstado());
 		return usuariosMapperDto.toResponse(usuariosUseCase.guardar(usuario));
+	}
+
+	@PostMapping("/actualizar")
+	@ResponseStatus(HttpStatus.OK)
+	public UsuariosResponseDto actualizar(@Valid @RequestBody UsuariosRequestDto dto) {
+		Usuarios actual = usuariosUseCase.buscarPorId(dto.getIdUsuario());
+		String passwordHash = dto.getPassword() != null && !dto.getPassword().isBlank()
+				? passwordEncoder.encode(dto.getPassword())
+				: actual.getPasswordHash();
+		Usuarios actualizado = new Usuarios(
+				dto.getIdUsuario(),
+				dto.getNombre(),
+				dto.getCedula(),
+				dto.getCorreo(),
+				dto.getIdRol(),
+				actual.getTipoRol(),
+				passwordHash,
+				actual.getTokenAuth(),
+				actual.getFechaAuthExp(),
+				dto.isEstado());
+		return usuariosMapperDto.toResponse(usuariosUseCase.guardar(actualizado));
 	}
 
 	@GetMapping("/buscarPorId")

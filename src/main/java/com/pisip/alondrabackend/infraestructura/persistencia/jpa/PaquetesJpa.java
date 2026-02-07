@@ -3,7 +3,6 @@ package com.pisip.alondrabackend.infraestructura.persistencia.jpa;
 import java.io.Serializable;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -38,13 +37,17 @@ public class PaquetesJpa implements Serializable {
 	@Column(length = 2000)
 	private String descripcion;
 
-	@Column(nullable = false)
-	private String pais;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_pais", nullable = false)
+	private PaisesJpa pais;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_ciudad", nullable = false)
+	private CiudadesJpa ciudad;
 
 	@Column(nullable = false)
-	private String ciudad;
+	private boolean estado;
 
-	@OneToMany(mappedBy = "paquete", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "paquete", fetch = jakarta.persistence.FetchType.LAZY)
 	private List<ReservasJpa> reservas;
-
 }

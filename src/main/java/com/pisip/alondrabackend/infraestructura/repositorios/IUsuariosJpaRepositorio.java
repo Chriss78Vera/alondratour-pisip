@@ -15,5 +15,5 @@ public interface IUsuariosJpaRepositorio extends JpaRepository<UsuariosJpa, Inte
 
 	Optional<UsuariosJpa> findByTokenAuth(String tokenAuth);
 
-	List<UsuariosJpa> findByRol(String rol);
+	List<UsuariosJpa> findByRol_Tipo(String tipo);
 }
