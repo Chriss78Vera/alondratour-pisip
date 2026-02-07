@@ -8,11 +8,11 @@ import com.pisip.alondrabackend.presentacion.dto.response.LoginResponseDto;
 public interface IAuthUseCase {
 
 	/**
-	 * Valida cédula (usuario) y contraseña contra la BD.
+	 * Valida correo electrónico y contraseña contra la BD.
 	 * Actualiza el usuario con token_auth (hash aleatorio) y fecha_auth_exp (ahora + 1h).
 	 * Retorna el token_auth en la respuesta.
 	 */
-	LoginResponseDto login(String cedula, String password);
+	LoginResponseDto login(String correo, String password);
 
 	/**
 	 * Valida token_auth: debe existir el usuario con ese token y fecha_auth_exp > ahora.

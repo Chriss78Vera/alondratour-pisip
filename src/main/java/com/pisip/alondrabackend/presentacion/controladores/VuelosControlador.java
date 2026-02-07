@@ -55,8 +55,10 @@ public class VuelosControlador {
 		Vuelos actualizado = new Vuelos(
 				actual.getIdVuelo(),
 				actual.getAerolinea(),
-				actual.getOrigen(),
-				actual.getDestino(),
+				actual.getIdPaisDestino(),
+				actual.getIdCiudadDestino(),
+				actual.getNombrePaisDestino(),
+				actual.getNombreCiudadDestino(),
 				actual.getFechaSalida(),
 				actual.getFechaLlegada(),
 				fechaExtraSalida,
@@ -76,16 +78,16 @@ public class VuelosControlador {
 		return vuelosUseCase.listarPorAerolinea(aerolinea).stream().map(vuelosMapperDto::toResponse).toList();	
 	}
 	
-	@GetMapping("/buscarPorOrigen")
+	@GetMapping("/buscarPorPaisDestino")
 	@ResponseStatus(HttpStatus.OK)
-	public List<VuelosResponseDto> listarPorOrigen(@RequestParam String origen){
-		return vuelosUseCase.listarPorOrigen(origen).stream().map(vuelosMapperDto::toResponse).toList();	
+	public List<VuelosResponseDto> listarPorIdPaisDestino(@RequestParam int idPais) {
+		return vuelosUseCase.listarPorIdPaisDestino(idPais).stream().map(vuelosMapperDto::toResponse).toList();
 	}
-	
-	@GetMapping("/buscarPorDestino")
+
+	@GetMapping("/buscarPorCiudadDestino")
 	@ResponseStatus(HttpStatus.OK)
-	public List<VuelosResponseDto> listarPorDestino(@RequestParam String destino){
-		return vuelosUseCase.listarPorDestino(destino).stream().map(vuelosMapperDto::toResponse).toList();	
+	public List<VuelosResponseDto> listarPorIdCiudadDestino(@RequestParam int idCiudad) {
+		return vuelosUseCase.listarPorIdCiudadDestino(idCiudad).stream().map(vuelosMapperDto::toResponse).toList();
 	}
 	
     @GetMapping("/fecha-salida")

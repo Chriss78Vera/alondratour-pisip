@@ -11,6 +11,8 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -36,8 +38,9 @@ public class UsuariosJpa implements Serializable {
 	@Column(nullable = false, unique = true)
 	private String correo;
 
-	@Column(nullable = false)
-	private String rol;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_rol", nullable = false)
+	private RolJpa rol;
 
 	@Column(name = "password_hash", nullable = true, length = 255)
 	private String passwordHash;

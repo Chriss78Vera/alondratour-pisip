@@ -23,16 +23,16 @@ public interface IVuelosJpaRepositorio extends JpaRepository<VuelosJpa, Integer>
     public List<VuelosJpa> proximosVuelos();
 
     /*
-     * Vuelos por origen
+     * Vuelos por país destino
      */
-    @Query("SELECT v FROM VuelosJpa v WHERE v.origen = ?1")
-    public List<VuelosJpa> listarPorOrigen(String origen);
+    @Query("SELECT v FROM VuelosJpa v WHERE v.destinoPais.idPais = ?1")
+    List<VuelosJpa> listarPorIdPaisDestino(int idPais);
 
     /*
-     * Vuelos por destino
+     * Vuelos por ciudad destino
      */
-    @Query("SELECT v FROM VuelosJpa v WHERE v.destino = ?1")
-    public List<VuelosJpa> listarPorDestino(String destino);
+    @Query("SELECT v FROM VuelosJpa v WHERE v.destinoCiudad.idCiudad = ?1")
+    List<VuelosJpa> listarPorIdCiudadDestino(int idCiudad);
 
     /*
      * Vuelos por fecha de salida

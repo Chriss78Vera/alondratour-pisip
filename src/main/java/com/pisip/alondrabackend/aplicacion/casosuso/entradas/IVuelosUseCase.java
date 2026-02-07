@@ -22,9 +22,9 @@ public interface IVuelosUseCase {
 
     List<Vuelos> proximosVuelos();
 
-    List<Vuelos> listarPorOrigen(String origen);
+    List<Vuelos> listarPorIdPaisDestino(int idPais);
 
-    List<Vuelos> listarPorDestino(String destino);
+    List<Vuelos> listarPorIdCiudadDestino(int idCiudad);
 
     List<Vuelos> listarPorFechaSalida(LocalDate fecha);
 

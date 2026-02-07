@@ -1,26 +1,25 @@
 package com.pisip.alondrabackend.presentacion.dto.request;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
 public class PaquetesRequestDto {
-	@NotBlank
 	private int idPaquete;
 
-	@NotBlank
-	private int idPaquetesDetalles;
+	@NotNull
+	private Integer idPaquetesDetalles;
 
-	@NotBlank
+	@NotNull
 	private String nombre;
 
 	private String descripcion;
 
-	@NotBlank
-	private String pais;
+	@NotNull
+	private Integer idPais;
 
-	@NotBlank
-	private String ciudad;
+	@NotNull
+	private Integer idCiudad;
 
 	private boolean estado;
 }

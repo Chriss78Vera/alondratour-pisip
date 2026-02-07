@@ -7,21 +7,26 @@ import com.pisip.alondrabackend.dominio.entidades.Usuarios;
 import com.pisip.alondrabackend.dominio.repositorios.IUsuariosRepositorio;
 import com.pisip.alondrabackend.infraestructura.persistencia.jpa.UsuariosJpa;
 import com.pisip.alondrabackend.infraestructura.persistencia.mapeadores.IUsuariosJpaMapper;
+import com.pisip.alondrabackend.infraestructura.repositorios.IRolJpaRepositorio;
 import com.pisip.alondrabackend.infraestructura.repositorios.IUsuariosJpaRepositorio;
 
 public class UsuariosRepositorioImpl implements IUsuariosRepositorio {
 
 	private final IUsuariosJpaRepositorio jpaRepositorio;
 	private final IUsuariosJpaMapper jpaMapper;
+	private final IRolJpaRepositorio rolJpaRepositorio;
 
-	public UsuariosRepositorioImpl(IUsuariosJpaRepositorio jpaRepositorio, IUsuariosJpaMapper jpaMapper) {
+	public UsuariosRepositorioImpl(IUsuariosJpaRepositorio jpaRepositorio, IUsuariosJpaMapper jpaMapper,
+			IRolJpaRepositorio rolJpaRepositorio) {
 		this.jpaRepositorio = jpaRepositorio;
 		this.jpaMapper = jpaMapper;
+		this.rolJpaRepositorio = rolJpaRepositorio;
 	}
 
 	@Override
 	public Usuarios guardar(Usuarios usuarios) {
 		UsuariosJpa entity = jpaMapper.toEntity(usuarios);
+		entity.setRol(rolJpaRepositorio.getReferenceById(usuarios.getIdRol()));
 		UsuariosJpa guardado = jpaRepositorio.save(entity);
 		return jpaMapper.toDomain(guardado);
 	}
@@ -58,6 +63,6 @@ public class UsuariosRepositorioImpl implements IUsuariosRepositorio {
 
 	@Override
 	public List<Usuarios> listarPorRol(String rol) {
-		return jpaRepositorio.findByRol(rol).stream().map(jpaMapper::toDomain).toList();
+		return jpaRepositorio.findByRol_Tipo(rol).stream().map(jpaMapper::toDomain).toList();
 	}
 }

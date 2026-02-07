@@ -9,21 +9,19 @@ import com.pisip.alondrabackend.infraestructura.persistencia.jpa.PaquetesJpa;
 
 public interface IPaquetesJpaRepositorio extends JpaRepository<PaquetesJpa, Integer> {
 
-	@Query("SELECT p FROM PaquetesJpa p WHERE p.pais = ?1")
-	List<PaquetesJpa> paquetesPorPais(String pais);
+	List<PaquetesJpa> findByPais_IdPais(int idPais);
 
-	@Query("SELECT p FROM PaquetesJpa p WHERE p.ciudad = ?1")
-	List<PaquetesJpa> paquetesPorCiudad(String ciudad);
+	List<PaquetesJpa> findByCiudad_IdCiudad(int idCiudad);
 
-	@Query("SELECT p FROM PaquetesJpa p WHERE p.pais = ?1 AND p.ciudad = ?2")
-	List<PaquetesJpa> paquetesPorPaisYCiudad(String pais, String ciudad);
+	@Query("SELECT p FROM PaquetesJpa p WHERE p.pais.idPais = ?1 AND p.ciudad.idCiudad = ?2")
+	List<PaquetesJpa> paquetesPorIdPaisYIdCiudad(int idPais, int idCiudad);
 
 	@Query("SELECT p FROM PaquetesJpa p WHERE p.paquetesDetalles.idPaquetesDetalles = ?1")
 	List<PaquetesJpa> paquetesPorIdPaquetesDetalles(int idPaquetesDetalles);
 
-	@Query("SELECT DISTINCT p.pais FROM PaquetesJpa p ORDER BY p.pais")
-	List<String> findDistinctPais();
+	@Query("SELECT DISTINCT p.pais.nombre FROM PaquetesJpa p ORDER BY p.pais.nombre")
+	List<String> findDistinctPaisNombre();
 
-	@Query("SELECT DISTINCT p.ciudad FROM PaquetesJpa p ORDER BY p.ciudad")
-	List<String> findDistinctCiudad();
+	@Query("SELECT DISTINCT p.ciudad.nombre FROM PaquetesJpa p ORDER BY p.ciudad.nombre")
+	List<String> findDistinctCiudadNombre();
 }

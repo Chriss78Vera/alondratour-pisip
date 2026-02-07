@@ -13,12 +13,15 @@ public class UsuariosJpaMapperImpl implements IUsuariosJpaMapper {
 		if (entity == null) {
 			return null;
 		}
+		int idRol = entity.getRol() != null ? entity.getRol().getIdRol() : 0;
+		String tipoRol = entity.getRol() != null ? entity.getRol().getTipo() : null;
 		return new Usuarios(
 				entity.getIdUsuario(),
 				entity.getNombre(),
 				entity.getCedula(),
 				entity.getCorreo(),
-				entity.getRol(),
+				idRol,
+				tipoRol,
 				entity.getPasswordHash(),
 				entity.getTokenAuth(),
 				entity.getFechaAuthExp(),
@@ -35,7 +38,7 @@ public class UsuariosJpaMapperImpl implements IUsuariosJpaMapper {
 		jpa.setNombre(usuarios.getNombre());
 		jpa.setCedula(usuarios.getCedula());
 		jpa.setCorreo(usuarios.getCorreo());
-		jpa.setRol(usuarios.getRol());
+		// rol se asigna en el adaptador con getReferenceById(usuarios.getIdRol())
 		jpa.setPasswordHash(usuarios.getPasswordHash());
 		jpa.setTokenAuth(usuarios.getTokenAuth());
 		jpa.setFechaAuthExp(usuarios.getFechaAuthExp());

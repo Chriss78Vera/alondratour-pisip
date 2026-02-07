@@ -8,7 +8,9 @@ public class PaquetesResponseDto {
 	private int idPaquetesDetalles;
 	private String nombre;
 	private String descripcion;
-	private String pais;
-	private String ciudad;
+	private int idPais;
+	private int idCiudad;
+	private String nombrePais;
+	private String nombreCiudad;
 	private boolean estado;
 }

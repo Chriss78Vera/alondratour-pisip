@@ -42,18 +42,18 @@ public class PaquetesUseCaseImpl implements IPaquetesUseCase {
 	}
 
 	@Override
-	public List<Paquetes> paquetesPorPais(String pais) {
-		return repositorio.paquetesPorPais(pais).stream().filter(Paquetes::isEstado).toList();
+	public List<Paquetes> paquetesPorIdPais(int idPais) {
+		return repositorio.paquetesPorIdPais(idPais).stream().filter(Paquetes::isEstado).toList();
 	}
 
 	@Override
-	public List<Paquetes> paquetesPorCiudad(String ciudad) {
-		return repositorio.paquetesPorCiudad(ciudad).stream().filter(Paquetes::isEstado).toList();
+	public List<Paquetes> paquetesPorIdCiudad(int idCiudad) {
+		return repositorio.paquetesPorIdCiudad(idCiudad).stream().filter(Paquetes::isEstado).toList();
 	}
 
 	@Override
-	public List<Paquetes> paquetesPorPaisYCiudad(String pais, String ciudad) {
-		return repositorio.paquetesPorPaisYCiudad(pais, ciudad).stream().filter(Paquetes::isEstado).toList();
+	public List<Paquetes> paquetesPorIdPaisYIdCiudad(int idPais, int idCiudad) {
+		return repositorio.paquetesPorIdPaisYIdCiudad(idPais, idCiudad).stream().filter(Paquetes::isEstado).toList();
 	}
 
 	@Override
@@ -63,11 +63,11 @@ public class PaquetesUseCaseImpl implements IPaquetesUseCase {
 
 	@Override
 	public List<String> paisesDistintos() {
-		return repositorio.listarTodo().stream().filter(Paquetes::isEstado).map(Paquetes::getPais).distinct().toList();
+		return repositorio.paisesDistintos();
 	}
 
 	@Override
 	public List<String> ciudadesDistintas() {
-		return repositorio.listarTodo().stream().filter(Paquetes::isEstado).map(Paquetes::getCiudad).distinct().toList();
+		return repositorio.ciudadesDistintas();
 	}
 }
