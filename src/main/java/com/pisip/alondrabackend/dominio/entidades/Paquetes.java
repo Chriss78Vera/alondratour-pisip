@@ -10,23 +10,23 @@ public class Paquetes implements Serializable {
 	private final int idPaquetesDetalles;
 	private final String nombre;
 	private final String descripcion;
-	private final String pais;
-	private final String ciudad;
+	private final int idPais;
+	private final int idCiudad;
+	private final String nombrePais;
+	private final String nombreCiudad;
 	private final boolean estado;
 
-	public Paquetes(int idPaquete, int idPaquetesDetalles, String nombre, String descripcion, String pais, String ciudad, boolean estado) {
-		super();
+	public Paquetes(int idPaquete, int idPaquetesDetalles, String nombre, String descripcion,
+			int idPais, int idCiudad, String nombrePais, String nombreCiudad, boolean estado) {
 		this.idPaquete = idPaquete;
 		this.idPaquetesDetalles = idPaquetesDetalles;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
-		this.pais = pais;
-		this.ciudad = ciudad;
+		this.idPais = idPais;
+		this.idCiudad = idCiudad;
+		this.nombrePais = nombrePais;
+		this.nombreCiudad = nombreCiudad;
 		this.estado = estado;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
 	}
 
 	public int getIdPaquete() {
@@ -45,23 +45,23 @@ public class Paquetes implements Serializable {
 		return descripcion;
 	}
 
-	public String getPais() {
-		return pais;
+	public int getIdPais() {
+		return idPais;
 	}
 
-	public String getCiudad() {
-		return ciudad;
+	public int getIdCiudad() {
+		return idCiudad;
+	}
+
+	public String getNombrePais() {
+		return nombrePais;
+	}
+
+	public String getNombreCiudad() {
+		return nombreCiudad;
 	}
 
 	public boolean isEstado() {
 		return estado;
 	}
-
-	@Override
-	public String toString() {
-		return "Paquetes [idPaquete=" + idPaquete + ", idPaquetesDetalles=" + idPaquetesDetalles + ", nombre=" + nombre
-				+ ", descripcion=" + descripcion + ", pais=" + pais + ", ciudad=" + ciudad + ", estado=" + estado + "]";
-	}
-	
-	
 }

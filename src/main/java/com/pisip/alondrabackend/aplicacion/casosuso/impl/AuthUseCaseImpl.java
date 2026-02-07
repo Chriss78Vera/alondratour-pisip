@@ -25,18 +25,18 @@ public class AuthUseCaseImpl implements IAuthUseCase {
 		this.passwordEncoder = passwordEncoder;
 	}
 
-	/** Valida cédula y contraseña, genera token (1h de validez) y lo guarda en el usuario. Devuelve el token si ok. */
+	/** Valida correo y contraseña, genera token (1h de validez) y lo guarda en el usuario. Devuelve el token si ok. */
 	@Override
-	public LoginResponseDto login(String cedula, String password) {
-		if (cedula == null || cedula.isBlank()) {
-			return LoginResponseDto.error("La cédula es obligatoria");
+	public LoginResponseDto login(String correo, String password) {
+		if (correo == null || correo.isBlank()) {
+			return LoginResponseDto.error("El correo electrónico es obligatorio");
 		}
 		if (password == null || password.isBlank()) {
 			return LoginResponseDto.error("La contraseña es obligatoria");
 		}
-		Optional<Usuarios> optUsuario = usuariosRepositorio.buscarPorCedula(cedula.trim());
+		Optional<Usuarios> optUsuario = usuariosRepositorio.buscarPorCorreo(correo.trim());
 		if (optUsuario.isEmpty()) {
-			return LoginResponseDto.error("Cédula o contraseña incorrectos");
+			return LoginResponseDto.error("Correo o contraseña incorrectos");
 		}
 		Usuarios usuario = optUsuario.get();
 		String hashAlmacenado = usuario.getPasswordHash();
@@ -44,7 +44,7 @@ public class AuthUseCaseImpl implements IAuthUseCase {
 			return LoginResponseDto.error("Usuario sin contraseña configurada");
 		}
 		if (!passwordEncoder.matches(password, hashAlmacenado)) {
-			return LoginResponseDto.error("Cédula o contraseña incorrectos");
+			return LoginResponseDto.error("Correo o contraseña incorrectos");
 		}
 		// Generar token aleatorio (hash) y fecha exp = ahora + 1h
 		String tokenAuth = UUID.randomUUID().toString().replace("-", "");
@@ -54,7 +54,8 @@ public class AuthUseCaseImpl implements IAuthUseCase {
 				usuario.getNombre(),
 				usuario.getCedula(),
 				usuario.getCorreo(),
-				usuario.getRol(),
+				usuario.getIdRol(),
+				usuario.getTipoRol(),
 				usuario.getPasswordHash(),
 				tokenAuth,
 				fechaAuthExp,
@@ -100,7 +101,8 @@ public class AuthUseCaseImpl implements IAuthUseCase {
 				usuario.getNombre(),
 				usuario.getCedula(),
 				usuario.getCorreo(),
-				usuario.getRol(),
+				usuario.getIdRol(),
+				usuario.getTipoRol(),
 				usuario.getPasswordHash(),
 				null,
 				null,

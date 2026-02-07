@@ -48,7 +48,7 @@ public class UsuariosControlador {
 			throw new IllegalArgumentException("La contraseña es obligatoria para crear usuario");
 		}
 		String passwordHash = passwordEncoder.encode(dto.getPassword());
-		Usuarios usuario = new Usuarios(0, dto.getNombre(), dto.getCedula(), dto.getCorreo(), dto.getRol(), passwordHash, null, null, dto.isEstado());
+		Usuarios usuario = new Usuarios(0, dto.getNombre(), dto.getCedula(), dto.getCorreo(), dto.getIdRol(), null, passwordHash, null, null, dto.isEstado());
 		return usuariosMapperDto.toResponse(usuariosUseCase.guardar(usuario));
 	}
 
@@ -64,7 +64,8 @@ public class UsuariosControlador {
 				dto.getNombre(),
 				dto.getCedula(),
 				dto.getCorreo(),
-				dto.getRol(),
+				dto.getIdRol(),
+				actual.getTipoRol(),
 				passwordHash,
 				actual.getTokenAuth(),
 				actual.getFechaAuthExp(),

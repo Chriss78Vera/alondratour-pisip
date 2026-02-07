@@ -18,8 +18,8 @@ public class UsuariosRequestDto {
 	@NotBlank
 	private String correo;
 
-	@NotBlank
-	private String rol;
+	/** id_rol (FK a tb_rol). Obligatorio. */
+	private int idRol;
 
 	/** Obligatoria al crear; opcional al actualizar (si viene vacía se mantiene la actual). */
 	private String password;

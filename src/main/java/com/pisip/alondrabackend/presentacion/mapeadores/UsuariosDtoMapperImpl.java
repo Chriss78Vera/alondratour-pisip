@@ -18,13 +18,14 @@ public class UsuariosDtoMapperImpl implements IUsuariosDtoMapper {
 		if (dto == null) {
 			return null;
 		}
-		// passwordHash se asigna en el controlador al crear; tokenAuth y fechaAuthExp en login
+		// passwordHash se asigna en el controlador al crear; tokenAuth y fechaAuthExp en login; tipoRol se obtiene al cargar desde BD
 		return new Usuarios(
 				dto.getIdUsuario(),
 				dto.getNombre(),
 				dto.getCedula(),
 				dto.getCorreo(),
-				dto.getRol(),
+				dto.getIdRol(),
+				null,
 				null,
 				dto.getTokenAuth(),
 				dto.getFechaAuthExp(),
@@ -41,6 +42,7 @@ public class UsuariosDtoMapperImpl implements IUsuariosDtoMapper {
 		dto.setNombre(usuarios.getNombre());
 		dto.setCedula(usuarios.getCedula());
 		dto.setCorreo(usuarios.getCorreo());
+		dto.setIdRol(usuarios.getIdRol());
 		dto.setRol(usuarios.getRol());
 		dto.setEstado(usuarios.isEstado());
 		return dto;

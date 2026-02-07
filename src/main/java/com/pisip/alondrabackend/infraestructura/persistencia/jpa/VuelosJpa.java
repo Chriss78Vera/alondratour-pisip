@@ -11,6 +11,8 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -30,11 +32,13 @@ public class VuelosJpa implements Serializable {
 	@Column(nullable = false)
 	private String aerolinea;
 
-	@Column(nullable = false)
-	private String origen;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_pais_destino", nullable = false)
+	private PaisesJpa destinoPais;
 
-	@Column(nullable = false)
-	private String destino;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_ciudad_destino", nullable = false)
+	private CiudadesJpa destinoCiudad;
 
 	@Column(name = "fecha_salida", nullable = false)
 	private LocalDate fechaSalida;

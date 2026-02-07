@@ -8,6 +8,7 @@ public class UsuariosResponseDto {
 	private String nombre;
 	private String cedula;
 	private String correo;
+	private int idRol;
 	private String rol;
 	private boolean estado;
 }

@@ -31,12 +31,12 @@ public class AuthControlador {
 	}
 
 	/**
-	 * Login con cédula y contraseña. Actualiza el usuario con token_auth y fecha_auth_exp (ahora + 1h).
+	 * Login con correo electrónico y contraseña. Actualiza el usuario con token_auth y fecha_auth_exp (ahora + 1h).
 	 * Retorna { success, message, token } donde token es el token_auth generado.
 	 */
 	@PostMapping("/login")
 	public ResponseEntity<LoginResponseDto> login(@Valid @RequestBody LoginRequestDto request) {
-		LoginResponseDto result = authUseCase.login(request.getCedula(), request.getPassword());
+		LoginResponseDto result = authUseCase.login(request.getCorreo(), request.getPassword());
 		if (result.isSuccess()) {
 			return ResponseEntity.ok(result);
 		}

@@ -8,24 +8,30 @@ import com.pisip.alondrabackend.dominio.entidades.Vuelos;
 import com.pisip.alondrabackend.dominio.repositorios.IVuelosRepositorio;
 import com.pisip.alondrabackend.infraestructura.persistencia.jpa.VuelosJpa;
 import com.pisip.alondrabackend.infraestructura.persistencia.mapeadores.IVuelosJpaMapper;
+import com.pisip.alondrabackend.infraestructura.repositorios.ICiudadesJpaRepositorio;
+import com.pisip.alondrabackend.infraestructura.repositorios.IPaisesJpaRepositorio;
 import com.pisip.alondrabackend.infraestructura.repositorios.IVuelosJpaRepositorio;
 
 public class VuelosRepositorioImpl implements IVuelosRepositorio {
-	
+
 	private final IVuelosJpaRepositorio jpaRepositorio;
 	private final IVuelosJpaMapper jpaMapper;
-	
-	
+	private final IPaisesJpaRepositorio paisesJpaRepositorio;
+	private final ICiudadesJpaRepositorio ciudadesJpaRepositorio;
 
-	public VuelosRepositorioImpl(IVuelosJpaRepositorio jpaRepositorio, IVuelosJpaMapper jpaMapper) {
-		super();
+	public VuelosRepositorioImpl(IVuelosJpaRepositorio jpaRepositorio, IVuelosJpaMapper jpaMapper,
+			IPaisesJpaRepositorio paisesJpaRepositorio, ICiudadesJpaRepositorio ciudadesJpaRepositorio) {
 		this.jpaRepositorio = jpaRepositorio;
 		this.jpaMapper = jpaMapper;
+		this.paisesJpaRepositorio = paisesJpaRepositorio;
+		this.ciudadesJpaRepositorio = ciudadesJpaRepositorio;
 	}
 
 	@Override
 	public Vuelos guardar(Vuelos vuelos) {
 		VuelosJpa entity = jpaMapper.toEntity(vuelos);
+		entity.setDestinoPais(paisesJpaRepositorio.getReferenceById(vuelos.getIdPaisDestino()));
+		entity.setDestinoCiudad(ciudadesJpaRepositorio.getReferenceById(vuelos.getIdCiudadDestino()));
 		VuelosJpa guardado = jpaRepositorio.save(entity);
 		// TODO Auto-generated method stub
 		return jpaMapper.toDomain(guardado);
@@ -64,15 +70,13 @@ public class VuelosRepositorioImpl implements IVuelosRepositorio {
 	}
 
 	@Override
-	public List<Vuelos> listarPorOrigen(String origen) {
-		// TODO Auto-generated method stub
-		return jpaRepositorio.listarPorOrigen(origen).stream().map(jpaMapper::toDomain).toList();
+	public List<Vuelos> listarPorIdPaisDestino(int idPais) {
+		return jpaRepositorio.listarPorIdPaisDestino(idPais).stream().map(jpaMapper::toDomain).toList();
 	}
 
 	@Override
-	public List<Vuelos> listarPorDestino(String destino) {
-		// TODO Auto-generated method stub
-		return jpaRepositorio.listarPorDestino(destino).stream().map(jpaMapper::toDomain).toList();
+	public List<Vuelos> listarPorIdCiudadDestino(int idCiudad) {
+		return jpaRepositorio.listarPorIdCiudadDestino(idCiudad).stream().map(jpaMapper::toDomain).toList();
 	}
 
 	@Override
